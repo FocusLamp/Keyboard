@@ -9,7 +9,7 @@
 )
 
 (defsrc
-  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                                      ssrq slck pause
+  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                                      prnt slck pause
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc                                ins  home pgup  nlck kp/  kp*  kp-
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \                                   del  end  pgdn  kp7  kp8  kp9  kp+
   caps a    s    d    f    g    h    j    k    l    ;    '    ret                                                      kp4  kp5  kp6
@@ -23,20 +23,37 @@
 (defalias
   myExtned       (layer-toggle EXTEND) 
   num-mode       (layer-toggle NumPad)
-  media          (layer-toggle Multimedia)
+  myMouse          (layer-toggle mouse)
 
+  mwu (mwheel-up 50 120)
+  mwd (mwheel-down 50 120)
+  mwl (mwheel-left 50 120)
+  mwr (mwheel-right 50 120)
+
+  ms↑ (movemouse-up 1 1)
+  ms← (movemouse-left 1 1)
+  ms↓ (movemouse-down 1 1)
+  ms→ (movemouse-right 1 1)
+
+  ma↑ (movemouse-accel-up 1 1000 1 5)
+  ma← (movemouse-accel-left 1 1000 1 5)
+  ma↓ (movemouse-accel-down 1 1000 1 5)
+  ma→ (movemouse-accel-right 1 1000 1 5)
+  
+  sm (setmouse 32228 32228)
+  fms (movemouse-speed 200)
 
   ;; I assume the you are using QWERTY
   ;;toggle-layout (switch ((base-layer QWERTY)) (layer-switch Colemak-DH) break)
-
 
   toggle-layout (switch
     ((base-layer QWERTY)) (layer-switch Colemak-DH) break
 
     ((base-layer Colemak-DH)) (layer-switch QWERTY) break
   )
-
+  
 )
+
 
 
 
@@ -49,26 +66,38 @@
   lctl    lmet    lalt          spc          @num-mode    rmet    rmet    rctl                         _    _    _     _    _
 )
 
+(deflayer mouse
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    @mwu    _    _    _                                   _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    _    @ms↑    @mwl    @mwd    @mwr    _    _                                   _    _    _     _    _    _    _
+  _    _    _    _    @fms    @sm    _    @ms←    @ms↓    @ms→    _    _    _                                                        _    _    _
+  _    _    _    _    _    mlft    mmid    mrgt    _    _    _    _                                                  _          _    _    _    _
+  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+)
+
 
 (deflayer EXTEND
   _    _     _     _     _      _      _      _      _     _      _     _     _                        _    _    _
   caps F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
-  _    esc   @media     mbck  mfwd   mwu    pgup   Home   up    End    del   esc   ins    _                 _    _    _     _    _    _    _
-  _    lalt  lmet  rsft  lctl   mwd    pgdn   left   down  rght   bspc  menu  ssrq                                     _    _    _
-  _    C-z   C-x   C-c   C-v    mlft   mmid   mrgt   _     _      _     _                                   _          _    _    _    _
-  _    _    _              ret            @num-mode    _    _    _                                             _    _    _     _    _
+  _    esc   @myMouse     mbck  mfwd   mwu    pgup   Home   up    End    del   esc   ins    _            _    _    _     _    _    _    _
+  _    lalt  lmet  rsft  lctl   mwd    pgdn   left   down  rght   bspc  menu    prnt                                   _    _    _
+  _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   _    _    _    _                             _          _    _    _    _
+  _    _    _              ret            @num-mode    _    _    _                                     _    _    _     _    _
 )
 
 
 
 (deflayer QWERTY
-  esc  F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12                           ssrq slck pause
+  esc  F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12                           prnt slck pause
   grv  1     2     3     4     5     6     7     8     9     0     -     =     bspc       @toggle-layout    home pgup  nlck kp/  kp*  kp-
   tab  q     w     e     r     t     y     u     i     o     p     [     ]     \                       del  end  pgdn  kp7  kp8  kp9  kp+
   @myExtned  a     s     d     f     g     h     j     k     l     ;     '     ret                                     kp4  kp5  kp6
   lsft z     x     c     v     b     n     m     ,     .     /     rsft                                     up         kp1  kp2  kp3  kprt
   lctl lmet lalt           spc            @num-mode    rmet    rmet  rctl                                          left down rght  kp0  kp.
 )
+
+
+
 
 
 
@@ -81,15 +110,38 @@
   _    _     _             _            _       _    _    _                                            _    _    _     _    _
 )
 
-(deflayer Multimedia
-  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
-  _    _    _    bck  fwd  brup  volu   _    _    wkup   _    plyr    hmpg    sleep                    _    _    _     _    _    _    _
-  _    _    _    _    _    brdn  vold  _      _      _     _    _    _                                                 _    _    _
-  _    _    _    _    _    _     mute  _      prev   pp    next    _                                        _          _    _    _    _
-  _    _    _              _              _    _    _    _                                             _    _    _     _    _
-)
 
+
+
+;; Multimedia layer with mouse actions
+;;(deflayer multimedia
+;;  _    @mwu @mwd @mwl @mwr _    _    _    _    _    @ma↑ _    _    _
+;;  _    pgup bck  _    fwd  _    _    _    _    @ma← @ma↓ @ma→ _    _
+;;  _    pgdn mlft _    mrgt mmid _    mbck mfwd _    @ms↑ _    _
+;;  @fms _    mltp _    mrtp mmtp _    mbtp mftp @ms← @ms↓ @ms→
+;;  _    _    _              _              _    _    _
+;;)
+
+
+;;(deflayer Multimedia
+;;  _    _    _    _    _    _    _    _    _    @ms↑    _    _    _                                        _    _    _
+;;  _    _    _    _    _    _    _    _    _    @ms←    @ms↓    @ms→    _    _                                   _    _    _     _    _    _    _
+;;  _    _    _    prev   pp    next   _    _    @ma↑    @ms   _    _    hmpg    _                    _    _    _     _    _    _    _
+;;  _    _    _    _    _    _    _    @ma←  @ma↓  @ma→     _    _    _                                                 _    _    _
+;;  _    _    _    _    _    _    _    _      _    _    _    _                                        _          _    _    _    _
+;;  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+;;)
+
+
+;; the volume breaks the loop in windows
+;;(deflayer Multimedia
+;;  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+;;  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
+;;  _    _    _    _    _    brup  volu   _      @ma↑          wkup   _    _    hmpg    _                    _    _    _     _    _    _    _
+;;  _    _    _    _    _    brdn  vold  @ma←   @ma↓   @ma→     _    _    _                                                 _    _    _
+;;  _    _    _    _    _    _     mute  _      prev   pp    next    _                                        _          _    _    _    _
+;;  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+;;)
 
 
 #| --------------------------------------------------------------------------------------------------
@@ -106,7 +158,7 @@
 
 
 (defsrc
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        ssrq slck pause
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        prnt slck pause
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc  ins  home pgup  nlck kp/  kp*  kp-
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \     del  end  pgdn  kp7  kp8  kp9  kp+
   caps a    s    d    f    g    h    j    k    l    ;    '    ret                        kp4  kp5  kp6
