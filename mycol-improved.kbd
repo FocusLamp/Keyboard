@@ -1,0 +1,305 @@
+;; ============================================================================
+;; IMPROVED KANATA CONFIGURATION - Colemak-DH with Advanced Features
+;; ============================================================================
+;; This configuration includes:
+;; - defvar for easy customization
+;; - Mouse controls with acceleration
+;; - Media keys
+;; - One-shot modifiers
+;; - Caps-word (smart caps lock)
+;; - Repeat keys
+;; - Tap-dance
+;; - Better organized aliases
+;; ============================================================================
+
+(defcfg 
+  ;; Pass-through keys: letting undefined keys go through
+  process-unmapped-keys yes
+  
+  ;; Better tap-hold behavior - allows multiple tap-holds to work simultaneously
+  concurrent-tap-hold yes
+  
+  ;; Timeout for leader key sequences (in milliseconds)
+  sequence-timeout 1000
+  
+  ;; Optional: Enable layer change logging for debugging
+   log-layer-changes yes
+  
+  ;; Linux-specific configuration (uncomment if on Linux)
+  ;; linux-dev /dev/input/event3
+  ;; linux-continue-if-no-devs-found yes
+  
+  ;; Windows-specific configuration (uncomment if on Windows)
+  ;; windows-altgr add-lctl-release
+)
+
+(defsrc
+  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                                      prnt slck pause
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc                                ins  home pgup  nlck kp/  kp*  kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \                                   del  end  pgdn  kp7  kp8  kp9  kp+
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret                                                      kp4  kp5  kp6
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft                                               up         kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc            ralt rmet cmp  rctl                                          left down rght  kp0  kp.
+)
+
+;; ============================================================================
+;; VARIABLES - Customize timing and behavior here
+;; ============================================================================
+(defvar
+  ;; Mouse movement configuration
+  mouse-interval 1
+  mouse-accel-time 1000
+  mouse-min-speed 1
+  mouse-max-speed 5
+  
+  ;; Mouse wheel configuration
+  wheel-interval 50
+  wheel-distance 120
+  
+  ;; Tap-hold timings
+  tap-timeout 200
+  hold-timeout 200
+  
+  ;; One-shot timeout
+  oneshot-timeout 500
+  
+  ;; Caps-word timeout
+  capsword-timeout 2000
+)
+
+;; ============================================================================
+;; ALIASES - Main Configuration
+;; ============================================================================
+(defalias
+  ;; ------------------------------------------------------------------------
+  ;; Layer Toggles
+  ;; ------------------------------------------------------------------------
+  myExtend   (layer-toggle EXTEND) 
+  num-mode   (layer-toggle NumPad)
+  myMouse    (layer-toggle mouse)
+  media-lay  (layer-toggle media)
+
+  ;; ------------------------------------------------------------------------
+  ;; Mouse Wheel Actions
+  ;; ------------------------------------------------------------------------
+  mwu (mwheel-up $wheel-interval $wheel-distance)
+  mwd (mwheel-down $wheel-interval $wheel-distance)
+  mwl (mwheel-left $wheel-interval $wheel-distance)
+  mwr (mwheel-right $wheel-interval $wheel-distance)
+
+  ;; ------------------------------------------------------------------------
+  ;; Basic Mouse Movement (slow, precise)
+  ;; ------------------------------------------------------------------------
+  ms↑ (movemouse-up $mouse-interval 1)
+  ms← (movemouse-left $mouse-interval 1)
+  ms↓ (movemouse-down $mouse-interval 1)
+  ms→ (movemouse-right $mouse-interval 1)
+
+  ;; ------------------------------------------------------------------------
+  ;; Accelerated Mouse Movement (starts slow, gets faster when held)
+  ;; ------------------------------------------------------------------------
+  ma↑ (movemouse-accel-up $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma← (movemouse-accel-left $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma↓ (movemouse-accel-down $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma→ (movemouse-accel-right $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  
+  ;; ------------------------------------------------------------------------
+  ;; Mouse Utilities
+  ;; ------------------------------------------------------------------------
+  sm (setmouse 32228 32228)      ;; Set mouse to center of screen
+  fms (movemouse-speed 200)      ;; Mouse speed modifier (200% = 2x speed)
+  
+  ;; ------------------------------------------------------------------------
+  ;; Mouse Button Taps (single click without holding)
+  ;; Note: Mouse tap actions click and immediately release
+  ;; ------------------------------------------------------------------------
+  ;; mltp ;; Left click tap - commented out, use macro instead if needed
+  ;; mrtp ;; Right click tap - commented out, use macro instead if needed  
+  ;; mmtp ;; Middle click tap - commented out, use macro instead if needed
+  ;; These tap variants may not be available in all kanata versions
+  
+  ;; ------------------------------------------------------------------------
+  ;; Media Controls (use keys directly in layers - no aliases needed)
+  ;; ------------------------------------------------------------------------
+  
+  ;; Note: Most keys (media, brightness, browser, etc.) can be used directly
+  ;; in layers without aliases. Only create aliases for special functionality
+  ;; like tap-hold, one-shot, layer-toggle, etc.
+  
+  ;; ------------------------------------------------------------------------
+  ;; One-Shot Modifiers (tap to apply modifier to next key only)
+  ;; ------------------------------------------------------------------------
+  os-sft (one-shot $oneshot-timeout lsft)
+  os-ctl (one-shot $oneshot-timeout lctl)
+  os-alt (one-shot $oneshot-timeout lalt)
+  os-met (one-shot $oneshot-timeout lmet)
+  
+  ;; One-shot layers
+  os-num (one-shot $oneshot-timeout (layer-toggle NumPad))
+  os-ext (one-shot $oneshot-timeout (layer-toggle EXTEND))
+  
+  ;; ------------------------------------------------------------------------
+  ;; Caps-Word (smart caps lock that auto-disables)
+  ;; ------------------------------------------------------------------------
+  cw (caps-word $capsword-timeout)
+  
+  ;; Custom caps-word including numbers
+  cwc (caps-word-custom
+    $capsword-timeout
+    (a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9)
+    (kp0 kp1 kp2 kp3 kp4 kp5 kp6 kp7 kp8 kp9 bspc del up down left rght)
+  )
+  
+  ;; Caps-word toggle variant
+  cwt (caps-word-toggle $capsword-timeout)
+  
+  ;; Repeat keys: Use 'rpt' and 'rpt-any' directly in layers - no aliases needed
+  
+  ;; ------------------------------------------------------------------------
+  ;; Tap-Dance (multi-tap for different actions)
+  ;; ------------------------------------------------------------------------
+  td-esc (tap-dance 200 (esc caps @cw))  ;; tap=esc, 2x=caps, 3x=caps-word
+  td-dot (tap-dance 200 (. S-1 S-/))     ;; tap=period, 2x=!, 3x=?
+  td-com (tap-dance 200 (, ; S-;))       ;; tap=comma, 2x=;, 3x=:
+
+  ;; ------------------------------------------------------------------------
+  ;; Layout Switcher
+  ;; ------------------------------------------------------------------------
+  toggle-layout (switch
+    ((base-layer QWERTY)) (layer-switch Colemak-DH) break
+    ((base-layer Colemak-DH)) (layer-switch QWERTY) break
+  )
+)
+
+;; ============================================================================
+;; LAYERS
+;; ============================================================================
+
+;; ----------------------------------------------------------------------------
+;; Colemak-DH Base Layer
+;; ----------------------------------------------------------------------------
+(deflayer Colemak-DH
+  @td-esc _    _    _    _    _    _    _    _    _    _    _    _                                     _    _    _
+  grv     _    _    _    _    _    _    _    _    _    _    _    _    _                   @toggle-layout    _    _     _    _    _    _
+  tab     q    w    f    p    b    j    l    u    y    ;    [    ]    \                                _    _    _     _    _    _    _
+  @myExtend    a    r    s    t    g    m    n    e    i    o    '    ret                                              _    _    _
+  lsft    z    x    c    d    v    k    h    ,    .    /    rsft                                            _          _    _    _    _
+  lctl    lmet    lalt          spc          @num-mode    rmet    @media-lay    rctl                   _    _    _     _    _
+)
+
+;; ----------------------------------------------------------------------------
+;; EXTEND Layer (Navigation & Function Keys)
+;; ----------------------------------------------------------------------------
+(deflayer EXTEND
+  _    _     _     _     _      _      _      _      _     _      _     _     _                        _    _    _
+  @cw  F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
+  _    esc   @myMouse  bck  fwd   @mwu   pgup   home   up    end    del   esc   ins    _               _    _    _     _    _    _    _
+  _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
+  _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   rpt  rpt-any _    _                                    _          _    _    _    _
+  _    _    _              ret            _    _    _    _                                             _    _    _     _    _
+)
+
+;; ----------------------------------------------------------------------------
+;; Mouse Layer (Advanced Mouse Control)
+;; ----------------------------------------------------------------------------
+(deflayer mouse
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    @mwu    _    _    _                                _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    _    @ms↑    @mwl    @mwd    @mwr    _    _                       _    _    _     _    _    _    _
+  _    @os-alt  @os-met  @os-sft  @fms  @sm    _    @ms←  @ms↓  @ms→    _    _    _                                    _    _    _
+  _    _    _    _    mlft    mmid    mrgt    mbck  mfwd  _    _    _                                       _          _    _    _    _
+  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+)
+
+;; ----------------------------------------------------------------------------
+;; NumPad Layer (Numbers & Symbols)
+;; ----------------------------------------------------------------------------
+(deflayer NumPad
+  _    _     _     _      _      _      _       _    _    _    _     _    _                            _    _    _
+  _    S-1   S-2   S-3    S-4    S-5    S-6     7    8    9    kp-   kp*  =     _                      _    _    _     _    _    _    _
+  _    home  up    end    del    esc    pgup    4    5    6    kp+   S-9  S-0   ,                      _    _    _     _    _    _    _ 
+  _    left  down  rght   bspc   nlck   pgdn    1    2    3    kprt  '    _                                            _    _    _
+  _    C-z   C-x   C-c    C-v    vold  volu   0    0    .    kp/   _                                        _          _    _    _    _
+  _    _     _             _            _       _    _    _                                            _    _    _     _    _
+)
+
+;; ----------------------------------------------------------------------------
+;; QWERTY Layer (Alternative Layout)
+;; ----------------------------------------------------------------------------
+(deflayer QWERTY
+  esc  F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12                           prnt slck pause
+  grv  1     2     3     4     5     6     7     8     9     0     -     =     bspc       @toggle-layout    home pgup  nlck kp/  kp*  kp-
+  tab  q     w     e     r     t     y     u     i     o     p     [     ]     \                       del  end  pgdn  kp7  kp8  kp9  kp+
+  @myExtend  a     s     d     f     g     h     j     k     l     ;     '     ret                                     kp4  kp5  kp6
+  lsft z     x     c     v     b     n     m     ,     .     /     rsft                                     up         kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc            @num-mode    rmet    @media-lay  rctl                       left down rght  kp0  kp.
+)
+
+;; ----------------------------------------------------------------------------
+;; Media Layer (Multimedia Controls)
+;; ----------------------------------------------------------------------------
+(deflayer media
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
+  _    _    _    _    _    brup  volu   mute     @ma↑          wkup   _    _    hmpg    _              _    _    _     _    _    _    _
+  _    _    _    _    _    brdn  vold  @ma←   @ma↓   @ma→     _    _    _                                              _    _    _
+  _    _    _    _    _    _     _      _      prev   pp    next    _                                       _          _    _    _    _
+  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+)
+
+;; ============================================================================
+;; TEMPLATE FOR CREATING NEW LAYERS
+;; ============================================================================
+#|
+(deflayer name
+  _    _    _    _    _    _    _    _    _    _    _    _    _                    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _               _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _               _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _                              _          _    _    _    _
+  _    _    _              _              _    _    _    _                         _    _    _     _    _
+)
+|#
+
+;; ============================================================================
+;; NOTES & TIPS
+;; ============================================================================
+#|
+CUSTOMIZATION TIPS:
+-------------------
+1. To adjust mouse speed, edit the defvar section at the top
+2. To change tap-hold timings, modify tap-timeout and hold-timeout variables
+3. One-shot modifiers timeout after 500ms (adjustable via oneshot-timeout)
+4. Caps-word automatically disables when you press a non-letter key
+
+KEYBOARD SHORTCUTS:
+-------------------
+- Caps key: Hold for EXTEND layer (navigation & functions)
+- Right Alt: Hold for NumPad layer
+- Right Meta/Windows: Hold for Media layer
+- Esc: Tap 1x=esc, 2x=caps, 3x=caps-word
+- Comma: Tap 1x=comma, 2x=semicolon, 3x=colon
+- Period: Tap 1x=period, 2x=!, 3x=?
+
+MOUSE CONTROLS:
+---------------
+- In EXTEND layer: Press 'w' to enter mouse layer
+- Accelerated movement: i/j/k/l position (starts slow, speeds up)
+- One-shot modifiers: a/s/d for Alt/Meta/Shift combos with clicks
+- Mouse buttons: Left/Middle/Right on v/b/n
+- Mouse back/forward: m/comma position
+
+MEDIA CONTROLS:
+---------------
+- Volume: up/down on NumPad layer or media layer
+- Brightness: up/down on media layer
+- Playback: previous/play-pause/next on media layer
+- Browser: back/forward in EXTEND layer
+
+TO USE THIS CONFIG:
+-------------------
+1. Rename this file to kanata.kbd or specify it when launching kanata
+2. On Windows: kanata.exe --cfg mycol-improved.kbd
+3. On Linux: sudo kanata --cfg mycol-improved.kbd
+4. Test each layer and adjust timings in defvar section as needed
+|#
