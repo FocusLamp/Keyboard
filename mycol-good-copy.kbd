@@ -19,9 +19,6 @@
   ;; Better tap-hold behavior - allows multiple tap-holds to work simultaneously
   concurrent-tap-hold yes
   
-  ;; Timeout for leader key sequences (in milliseconds)
-  sequence-timeout 1000
-  
   ;; Optional: Enable layer change logging for debugging
    log-layer-changes yes
   
@@ -32,6 +29,7 @@
   ;; Windows-specific configuration (uncomment if on Windows)
   ;; windows-altgr add-lctl-release
 )
+
 
 (defsrc
   esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                                      prnt slck pause
@@ -54,7 +52,7 @@
   
   ;; Mouse wheel configuration
   wheel-interval 50
-  wheel-distance 120
+  wheel-distance 100
   
   ;; Tap-hold timings
   tap-timeout 200
@@ -82,7 +80,8 @@
   ;; ------------------------------------------------------------------------
   ;; Tap-Hold Layer Toggles
   ;; ------------------------------------------------------------------------
-  a-mouse (tap-hold $tap-timeout $hold-timeout a @myMouse)
+  a-mouse (tap-hold $tap-timeout 300 a @myMouse)
+  g-unicode (tap-hold $tap-timeout $hold-timeout g (layer-toggle Unicode))
 
   ;; ------------------------------------------------------------------------
   ;; Mouse Wheel Actions
@@ -131,6 +130,7 @@
   ;; in layers without aliases. Only create aliases for special functionality
   ;; like tap-hold, one-shot, layer-toggle, etc.
   
+;; unused
   ;; ------------------------------------------------------------------------
   ;; One-Shot Modifiers (tap to apply modifier to next key only)
   ;; ------------------------------------------------------------------------
@@ -173,6 +173,18 @@
     ((base-layer QWERTY)) (layer-switch Colemak-DH) break
     ((base-layer Colemak-DH)) (layer-switch QWERTY) break
   )
+
+  ;; ------------------------------------------------------------------------
+  ;; Unicode & Macro Aliases
+  ;; ------------------------------------------------------------------------
+  ;;omw (macro (clipboard-save 0) 20 (clipboard-set "On my way.") 50 C-v 20 (clipboard-restore 0))
+  shrug (macro (clipboard-save 0) 20 (clipboard-set "¯\_(ツ)_/¯") 50 C-v 20 (clipboard-restore 0))
+  browat (macro (clipboard-save 0) 20 (clipboard-set "(•_•) ( •_•)>⌐■-■ (⌐■_■)") 50 C-v 20 (clipboard-restore 0))
+  peek (macro (clipboard-save 0) 20 (clipboard-set "┬┴┬┴┤(･_├┬┴┬┴") 50 C-v 20 (clipboard-restore 0))
+  humilation (macro (clipboard-save 0) 20 (clipboard-set "You should really try to configure your own keyboard layout, it saves so much time") 50 C-v 20 (clipboard-restore 0))
+  omw (macro (clipboard-save 0) 20 (clipboard-set "On my way.") 50 C-v 20 (clipboard-restore 0))
+  thumb (unicode "👍")
+  hmmm (unicode "🤨")
 )
 
 ;; ============================================================================
@@ -186,7 +198,7 @@
   @td-esc _    _    _    _    _    _    _    _    _    _    _    _                                     _    _    _
   grv     _    _    _    _    _    _    _    _    _    _    _    _    _                   @toggle-layout    _    _     _    _    _    _
   tab     q    w    f    p    b    j    l    u    y    ;    [    ]    \                                _    _    _     _    _    _    _
-  @myExtend    @a-mouse    r    s    t    g    m    n    e    i   o     '    ret                                              _    _    _
+  @myExtend    @a-mouse    r    s    t    @g-unicode    m    n    e    i   o     '    ret                                              _    _    _
   lsft    z    x    c    d    v    k    h    ,    .    /    rsft                                            _          _    _    _    _
   lctl    lmet    lalt          spc          @num-mode    rmet    @media-lay    rctl                   _    _    _     _    _
 )
@@ -197,7 +209,7 @@
 (deflayer EXTEND
   _    _     _     _     _      _      _      _      _     _      _     _     _                        _    _    _
   @cw  F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
-  _    esc   @myMouse  bck  fwd   @mwu   pgup   home   up    end    del   esc   ins    _               _    _    _     _    _    _    _
+  _    esc   @media-lay     bck  fwd   @mwu   pgup   home   up    end    del   esc   ins    _               _    _    _     _    _    _    _
   _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
   _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   _     _   _    _                                       _          _    _    _    _ 
   _    _    _              ret            _    _    _    _                                             _    _    _     _    _
@@ -208,11 +220,11 @@
 ;; ----------------------------------------------------------------------------
 (deflayer mouse
   XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX                           XX    XX    XX
-  XX    XX    XX    XX    XX    XX    XX    XX    XX    pgup    @mwu    pgdn    XX    XX               XX    XX    XX     XX    XX    XX    XX
-  XX    XX    XX    XX    XX    XX    XX    XX     @ms↑   @mwl    @mwd    @mwr    XX    XX             XX    XX    XX     XX    XX    XX    XX
-  XX    XX    XX    XX    @fms @sm  XX    @ms←     @ms↓   @ms→    XX    XX    XX                                          XX    XX    XX
-  XX    XX    XX    XX    mlft    mmid    mrgt      XX   mbck  mfwd     XX    XX                                 XX           XX    XX    XX    XX
-  XX    XX    XX              XX              XX    XX    XX    XX                                     XX    XX    XX     XX    XX
+  XX    XX    XX    XX    XX    XX    @ma↑    XX    XX    pgup    @mwu    pgdn    lctl    XX             XX    XX    XX     XX    XX    XX    XX
+  XX    XX    XX    XX    XX    @ma←  @ma↓  @ma→    @ms↑   @mwl    @mwd   @mwr    XX    XX               XX    XX    XX     XX    XX    XX    XX
+  XX    XX    XX    XX    @fms @sm    XX    @ms←  @ms↓   @ms→    XX    XX    XX                                           XX    XX    XX
+  XX    XX    XX    XX    mlft    mmid    mrgt     XX   mbck  mfwd     XX    XX                              XX           XX    XX    XX    XX
+  XX    XX    XX              XX            XX     XX    XX    XX                                      XX    XX    XX     XX    XX
 )
 
 ;; ----------------------------------------------------------------------------
@@ -226,6 +238,20 @@
   _    C-z   C-x   C-c    C-v    vold  volu   0    0    .    kp/   _                                        _          _    _    _    _
   _    _     _             _            _       _    _    _                                            _    _    _     _    _
 )
+
+;; ============================================================================
+;; UNICODE LAYER
+;; ============================================================================
+;; Activated by holding the 'g' key on the Colemak-DH layer.
+(deflayer Unicode
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                                      XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                                 XX   XX   XX   XX   XX   XX   XX
+  XX   @shrug @browat @peek XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                           XX   XX   XX   XX   XX   XX   XX
+  XX   @thumb @hmmm   XX   XX   XX   XX   XX   XX   XX   @humilation   XX   XX                                       XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                                                XX        XX   XX   XX   XX
+  XX   XX   XX             XX             XX   XX   XX   XX                                           XX   XX   XX   XX   XX
+)
+
 
 ;; ----------------------------------------------------------------------------
 ;; QWERTY Layer (Alternative Layout)
@@ -263,8 +289,10 @@
   _    _    _    _    _    _    _    _    _    _    _    _                              _          _    _    _    _
   _    _    _              _              _    _    _    _                         _    _    _     _    _
 )
-|#
 
+
+
+|#
 ;; ============================================================================
 ;; NOTES & TIPS
 ;; ============================================================================
