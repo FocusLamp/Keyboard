@@ -1,0 +1,4 @@
+# Let git handle most files automatically
+* text=auto
+
+*.kbd eol=lf

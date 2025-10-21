@@ -80,7 +80,6 @@
   ;; ------------------------------------------------------------------------
   ;; Tap-Hold Layer Toggles
   ;; ------------------------------------------------------------------------
-  a-mouse (tap-hold $tap-timeout 300 a @myMouse)
   g-unicode (tap-hold $tap-timeout $hold-timeout g (layer-toggle Unicode))
 
   ;; ------------------------------------------------------------------------
@@ -94,18 +93,18 @@
   ;; ------------------------------------------------------------------------
   ;; Basic Mouse Movement (slow, precise)
   ;; ------------------------------------------------------------------------
-  ms↑ (movemouse-up $mouse-interval 1)
-  ms← (movemouse-left $mouse-interval 1)
-  ms↓ (movemouse-down $mouse-interval 1)
-  ms→ (movemouse-right $mouse-interval 1)
+  ms-^ (movemouse-up $mouse-interval 1)
+  ms-< (movemouse-left $mouse-interval 1)
+  ms-v (movemouse-down $mouse-interval 1)
+  ms-> (movemouse-right $mouse-interval 1)
 
   ;; ------------------------------------------------------------------------
   ;; Accelerated Mouse Movement (starts slow, gets faster when held)
   ;; ------------------------------------------------------------------------
-  ma↑ (movemouse-accel-up $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
-  ma← (movemouse-accel-left $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
-  ma↓ (movemouse-accel-down $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
-  ma→ (movemouse-accel-right $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma-^ (movemouse-accel-up $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma-< (movemouse-accel-left $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma-v (movemouse-accel-down $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma-> (movemouse-accel-right $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
   
   ;; ------------------------------------------------------------------------
   ;; Mouse Utilities
@@ -178,6 +177,13 @@
   ;; Unicode & Macro Aliases
   ;; ------------------------------------------------------------------------
   ;;omw (macro (clipboard-save 0) 20 (clipboard-set "On my way.") 50 C-v 20 (clipboard-restore 0))
+  ;; shrug (macro (clipboard-save 0) 20 (clipboard-set "¯\_(ツ)_/¯") 50 C-v 20 (clipboard-restore 0))
+  ;; browat (macro (clipboard-save 0) 20 (clipboard-set "(•_•) ( •_•)>⌐■-■ (⌐■_■)") 50 C-v 20 (clipboard-restore 0))
+  ;; peek (macro (clipboard-save 0) 20 (clipboard-set "┬┴┬┴┤(･_├┬┴┬┴") 50 C-v 20 (clipboard-restore 0))
+  ;; humilation (macro (clipboard-save 0) 20 (clipboard-set "You should really try to configure your own keyboard layout, it saves so much time") 50 C-v 20 (clipboard-restore 0))
+  ;; omw (macro (clipboard-save 0) 20 (clipboard-set "On my way.") 50 C-v 20 (clipboard-restore 0))
+  ;; thumb (unicode "👍")
+  ;; hmmm (unicode "🤨")
   shrug (macro (clipboard-save 0) 20 (clipboard-set "¯\_(ツ)_/¯") 50 C-v 20 (clipboard-restore 0))
   browat (macro (clipboard-save 0) 20 (clipboard-set "(•_•) ( •_•)>⌐■-■ (⌐■_■)") 50 C-v 20 (clipboard-restore 0))
   peek (macro (clipboard-save 0) 20 (clipboard-set "┬┴┬┴┤(･_├┬┴┬┴") 50 C-v 20 (clipboard-restore 0))
@@ -186,6 +192,7 @@
   thumb (unicode "👍")
   hmmm (unicode "🤨")
 )
+
 
 ;; ============================================================================
 ;; LAYERS
@@ -198,7 +205,7 @@
   @td-esc _    _    _    _    _    _    _    _    _    _    _    _                                     _    _    _
   grv     _    _    _    _    _    _    _    _    _    _    _    _    _                   @toggle-layout    _    _     _    _    _    _
   tab     q    w    f    p    b    j    l    u    y    ;    [    ]    \                                _    _    _     _    _    _    _
-  @myExtend    @a-mouse    r    s    t    @g-unicode    m    n    e    i   o     '    ret                                              _    _    _
+  @myExtend    a    r    s    t    @g-unicode    m    n    e    i   o     '    ret                                              _    _    _
   lsft    z    x    c    d    v    k    h    ,    .    /    rsft                                            _          _    _    _    _
   lctl    lmet    lalt          spc          @num-mode    rmet    @media-lay    rctl                   _    _    _     _    _
 )
@@ -209,7 +216,7 @@
 (deflayer EXTEND
   _    _     _     _     _      _      _      _      _     _      _     _     _                        _    _    _
   @cw  F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
-  _    esc   @media-lay     bck  fwd   @mwu   pgup   home   up    end    del   esc   ins    _               _    _    _     _    _    _    _
+  _    esc   @myMouse     bck  fwd   @mwu   pgup   home   up    end    del   esc   ins    _               _    _    _     _    _    _    _
   _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
   _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   _     _   _    _                                       _          _    _    _    _ 
   _    _    _              ret            _    _    _    _                                             _    _    _     _    _
@@ -220,9 +227,9 @@
 ;; ----------------------------------------------------------------------------
 (deflayer mouse
   XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX                           XX    XX    XX
-  XX    XX    XX    XX    XX    XX    @ma↑    XX    XX    pgup    @mwu    pgdn    lctl    XX             XX    XX    XX     XX    XX    XX    XX
-  XX    XX    XX    XX    XX    @ma←  @ma↓  @ma→    @ms↑   @mwl    @mwd   @mwr    XX    XX               XX    XX    XX     XX    XX    XX    XX
-  XX    XX    XX    XX    @fms @sm    XX    @ms←  @ms↓   @ms→    XX    XX    XX                                           XX    XX    XX
+  XX    XX    XX    XX    XX    XX    @ma-^    XX    XX    pgup    @mwu    pgdn    lctl    XX             XX    XX    XX     XX    XX    XX    XX
+  XX    XX    XX    XX    XX    @ma-<  @ma-v  @ma->    @ms-^   @mwl    @mwd   @mwr    XX    XX               XX    XX    XX     XX    XX    XX    XX
+  XX    XX    XX    XX    @fms @sm    XX    @ms-<  @ms-v   @ms->    XX    XX    XX                                           XX    XX    XX
   XX    XX    XX    XX    mlft    mmid    mrgt     XX   mbck  mfwd     XX    XX                              XX           XX    XX    XX    XX
   XX    XX    XX              XX            XX     XX    XX    XX                                      XX    XX    XX     XX    XX
 )
@@ -260,7 +267,7 @@
   esc  F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12                           prnt slck pause
   grv  1     2     3     4     5     6     7     8     9     0     -     =     bspc       @toggle-layout    home pgup  nlck kp/  kp*  kp-
   tab  q     w     e     r     t     y     u     i     o     p     [     ]     \                       del  end  pgdn  kp7  kp8  kp9  kp+
-  @myExtend  @a-mouse     s     d     f     g     h     j     k     l     ;     '     ret                                     kp4  kp5  kp6
+  @myExtend  a     s     d     f     g     h     j     k     l     ;     '     ret                                     kp4  kp5  kp6
   lsft z     x     c     v     b     n     m     ,     .     /     rsft                                     up         kp1  kp2  kp3  kprt
   lctl lmet lalt           spc            @num-mode    rmet    @media-lay  rctl                       left down rght  kp0  kp.
 )
@@ -271,8 +278,8 @@
 (deflayer media
   _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
-  _    _    _    _    _    brup  volu   mute     @ma↑          wkup   _    _    hmpg    _              _    _    _     _    _    _    _
-  _    _    _    _    _    brdn  vold  @ma←   @ma↓   @ma→     _    _    _                                              _    _    _
+  _    _    _    _    _    brup  volu   mute     @ma-^          wkup   _    _    hmpg    _              _    _    _     _    _    _    _
+  _    _    _    _    _    brdn  vold  @ma-<   @ma-v   @ma->     _    _    _                                              _    _    _
   _    _    _    _    _    _     _      _      prev   pp    next    _                                       _          _    _    _    _
   _    _    _              _              _    _    _    _                                             _    _    _     _    _
 )

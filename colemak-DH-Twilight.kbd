@@ -1,0 +1,206 @@
+;; Colemak-DH with Unicode, Mouse, Extended and Media layers
+
+(defcfg 
+  process-unmapped-keys yes  ;; Pass-through undefined keys
+  concurrent-tap-hold yes    ;; Allows multiple tap-holds simultaneously
+  log-layer-changes yes      ;; Layer change logging for debugging
+)
+
+
+(defsrc
+  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                                      prnt slck pause
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc                                ins  home pgup  nlck kp/  kp*  kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \                                   del  end  pgdn  kp7  kp8  kp9  kp+
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret                                                      kp4  kp5  kp6
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft                                               up         kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc            ralt rmet cmp  rctl                                          left down rght  kp0  kp.
+)
+
+;; Configuration Variables
+(defvar
+  ;; Mouse settings
+  mouse-interval 1      ;; Mouse movement polling interval
+  mouse-accel-time 1000 ;; Time to reach max speed (ms)
+  mouse-min-speed 1     ;; Starting mouse speed
+  mouse-max-speed 5     ;; Maximum mouse speed
+  wheel-interval 50     ;; Scroll wheel interval
+  wheel-distance 150    ;; Scroll distance per tick
+  
+  ;; Timing settings
+  tap-timeout 200       ;; Max time for tap recognition (ms)
+  hold-timeout 200      ;; Min time for hold recognition (ms)
+  capsword-timeout 2000 ;; Auto-disable caps word after (ms)
+)
+
+;; Layer and Function Aliases
+(defalias
+  ;; Layer toggles
+  myExtend   (layer-toggle EXTEND)  ;; Navigation and function keys
+  num-mode   (layer-toggle NumPad)  ;; Numbers and symbols
+  myMouse    (layer-toggle mouse)   ;; Mouse controls
+  media-lay  (layer-toggle media)   ;; Media controls
+  uni-mode   (layer-toggle Unicode) ;; Unicode/emoji layer
+  
+  ;; Dual-purpose keys (tap for character, hold for layer)
+  a-mouse    (tap-hold $tap-timeout 300 a @myMouse)
+  g-unicode  (tap-hold $tap-timeout $hold-timeout g @uni-mode)
+  num-alt    (tap-hold $tap-timeout 700 lalt @num-mode)
+  
+  ;; Mouse wheel controls
+  mwu (mwheel-up $wheel-interval $wheel-distance)
+  mwd (mwheel-down $wheel-interval $wheel-distance)
+  mwl (mwheel-left $wheel-interval $wheel-distance)
+  mwr (mwheel-right $wheel-interval $wheel-distance)
+  
+  ;; Precise mouse movement (1px at a time)
+  ms↑ (movemouse-up $mouse-interval 1)
+  ms← (movemouse-left $mouse-interval 1)
+  ms↓ (movemouse-down $mouse-interval 1)
+  ms→ (movemouse-right $mouse-interval 1)
+  
+  ;; Accelerated mouse movement
+  ma↑ (movemouse-accel-up $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma← (movemouse-accel-left $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma↓ (movemouse-accel-down $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma→ (movemouse-accel-right $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  
+  ;; Mouse utilities
+  sm  (setmouse 32228 32228)    ;; Center mouse
+  fms (movemouse-speed 240)     ;; Fast mouse speed (240%)
+  
+  ;; Smart features
+  cw  (caps-word $capsword-timeout)
+  
+  ;; Multi-tap actions
+  td-esc (tap-dance 200 (esc caps @cw))  ;; 1x=esc, 2x=caps, 3x=caps-word
+  td-dot (tap-dance 200 (. S-1 S-/))     ;; 1x=., 2x=!, 3x=?
+  td-com (tap-dance 200 (, ; S-;))       ;; 1x=,, 2x=;, 3x=:
+  
+  ;; Layout switching
+  toggle-layout (switch
+    ((base-layer QWERTY)) (layer-switch Colemak-DH) break
+    ((base-layer Colemak-DH)) (layer-switch QWERTY) break
+  )
+)
+
+;; Unicode & Text Macros (Kaomoji and Emoji)
+(defalias
+  ;; Top row kaomoji
+  u-q  (macro (clipboard-save 20000) (clipboard-set "(✿◠‿◠)")      300 C-v (clipboard-restore 20000))  ;; Flower girl
+  u-w  (macro (clipboard-save 20000) (clipboard-set "( のvの)")      300 C-v (clipboard-restore 20000))  ;; Wise owl
+  u-f  (macro (clipboard-save 20000) (clipboard-set "( ╯°□°）╯︵ ┻━┻") 300 C-v (clipboard-restore 20000))  ;; Flip table
+  u-p  (macro (clipboard-save 20000) (clipboard-set "┬─┬ ノ( °‿°ノ)") 300 C-v (clipboard-restore 20000))  ;; Restore table
+  u-g  (macro (clipboard-save 20000) (clipboard-set "☆*:.｡. o(⁎≧▽≦)o .｡.:*☆") 300 C-v (clipboard-restore 20000))  ;; Celebration
+  u-j  (macro (clipboard-save 20000) (clipboard-set "∩(◕‿◕｡)∩～♪")  300 C-v (clipboard-restore 20000))  ;; Joyful
+  u-l  (macro (clipboard-save 20000) (clipboard-set "( ͡° ͜ʖ ͡°)")    300 C-v (clipboard-restore 20000))  ;; Lenny
+  u-u  (macro (clipboard-save 20000) (clipboard-set "ʕ  ͡° ʖ̯ ͡°ʔ")    300 C-v (clipboard-restore 20000))  ;; Unhappy
+  u-y  (macro (clipboard-save 20000) (clipboard-set "ლ(ಠ益ಠ ლ)")     300 C-v (clipboard-restore 20000))  ;; Confusion
+  u-sc (macro (clipboard-save 20000) (clipboard-set "(ʘ言ʘ╬)")      300 C-v (clipboard-restore 20000))  ;; Shocked
+  u-lb (macro (clipboard-save 20000) (clipboard-set "ヽ༼ຈل͜ຈ༽ﾉ")      300 C-v (clipboard-restore 20000))  ;; Donger
+  u-rb (macro (clipboard-save 20000) (clipboard-set "ᕕ( ᐛ )ᕗ")      300 C-v (clipboard-restore 20000))  ;; Happy
+
+  ;; Home row kaomoji
+  u-a  (macro (clipboard-save 20000) (clipboard-set "( ⌐■_■)=/̵͇̿̿/'̿'̿ ̿ ̿̿ ̿̿ ̿̿") 300 C-v (clipboard-restore 20000))  ;; Agent
+  u-r  (macro (clipboard-save 20000) (clipboard-set "／(⁎≧∇≦)＼")    300 C-v (clipboard-restore 20000))  ;; Rabbit
+  u-s  (macro (clipboard-save 20000) (clipboard-set "¯\\_(ツ)_/¯")    300 C-v (clipboard-restore 20000))  ;; Shrug
+  u-t  (macro (clipboard-save 20000) (clipboard-set "d( ^◇^)b")      300 C-v (clipboard-restore 20000))  ;; Thumbs up
+  u-d  (macro (clipboard-save 20000) (clipboard-set "♪～└[∵┌]└[･▥･]┘[┐∵]┘～♪") 300 C-v (clipboard-restore 20000))  ;; Dance
+  u-h  (macro (clipboard-save 20000) (clipboard-set "(つ♡ ͜ʖ ♡)つ")    300 C-v (clipboard-restore 20000))  ;; Hug
+  u-n  (macro (clipboard-save 20000) (clipboard-set "(ง ಠ_ಠ)ง")      300 C-v (clipboard-restore 20000))  ;; Nope
+  u-e  (macro (clipboard-save 20000) (clipboard-set "(⁄ ⁄•⁄ω⁄•⁄ ⁄)")  300 C-v (clipboard-restore 20000))  ;; Embarrassed
+  u-i  (macro (clipboard-save 20000) (clipboard-set "ฅ(=ʘᆽʘ=)ฅ")     300 C-v (clipboard-restore 20000))  ;; Cat
+  u-o  (macro (clipboard-save 20000) (clipboard-set "Θώθ")           300 C-v (clipboard-restore 20000))  ;; OwO
+  u-qu (macro (clipboard-save 20000) (clipboard-set "(ﾉ*･д･)ﾉ")      300 C-v (clipboard-restore 20000))  ;; Sorry
+  u-bs (macro (clipboard-save 20000) (clipboard-set "ヽ( ⌒o⌒)人(⌒-⌒ )/") 300 C-v (clipboard-restore 20000))  ;; Highfive
+
+  ;; Bottom row kaomoji
+  u-z  (macro (clipboard-save 20000) (clipboard-set "/╲/|╭( ͡°͡° ͜ʖ ͡°͡°)╮/|╱\\") 300 C-v (clipboard-restore 20000))  ;; Spider
+  u-x  (macro (clipboard-save 20000) (clipboard-set "୧(  x﹏x)୨")    300 C-v (clipboard-restore 20000))  ;; RIP
+  u-c  (macro (clipboard-save 20000) (clipboard-set "( ಥ╭╮ಥ)")      300 C-v (clipboard-restore 20000))  ;; Crying
+  u-v  (macro (clipboard-save 20000) (clipboard-set "( ಸ‿ಸ)")        300 C-v (clipboard-restore 20000))  ;; Smug
+  u-b  (macro (clipboard-save 20000) (clipboard-set "ฅʕ •ᴥ•ʔฅ")      300 C-v (clipboard-restore 20000))  ;; Bear
+  u-k  (macro (clipboard-save 20000) (clipboard-set "(=^･ω･^=)丿")   300 C-v (clipboard-restore 20000))  ;; Kitty
+  u-m  (macro (clipboard-save 20000) (clipboard-set "( ͡ಠ ʖ̯ ͡ಠ)╭∩╮")   300 C-v (clipboard-restore 20000))  ;; Middle finger
+  u-cm (macro (clipboard-save 20000) (clipboard-set "(づ￣ ³￣)づ")    300 C-v (clipboard-restore 20000))  ;; Kiss
+  u-pd (macro (clipboard-save 20000) (clipboard-set "(つ_〃*)")       300 C-v (clipboard-restore 20000))  ;; Facepalm
+  u-sl (macro (clipboard-save 20000) (clipboard-set "( ಠ o ಠ) ¤=(————") 300 C-v (clipboard-restore 20000))  ;; Sword
+
+  ;; Text macros (F1-F4 in Unicode layer)
+  hey       (macro (clipboard-save 20000) (clipboard-set "Hey! 👋") 300 C-v (clipboard-restore 20000))
+  complement (macro (clipboard-save 20000) (clipboard-set "Nice to see you! Well, this is Splendid!") 300 C-v (clipboard-restore 20000))
+  thmup     (unicode "👍")
+  hmmm      (unicode "🤨")
+)
+
+;; Layer Definitions
+
+;; Colemak-DH Base Layer
+(deflayer Colemak-DH
+  @td-esc _    _    _    _    _    _    _    _    _    _    _    _                                     _    _    _
+  grv     _    _    _    _    _    _    _    _    _    _    _    _    _                   @toggle-layout    _    _     _    _    _    _
+  tab     q    w    f    p    b    j    l    u    y    ;    [    ]    \                                _    _    _     _    _    _    _
+  @myExtend    @a-mouse    r    s    t    @g-unicode    m    n    e    i   o     '    ret                                              _    _    _
+  lsft    z    x    c    d    v    k    h    ,    .    /    rsft                                            _          _    _    _    _
+  lctl    lmet    lalt          spc          @num-alt    rmet    @media-lay    rctl                   _    _    _     _    _
+)
+
+;; EXTEND Layer - Navigation & Function Keys
+(deflayer EXTEND
+  caps    ▶⏸     ◀◀     ▶▶     🔇      🔉      🔊      🔆     🔅    _      hmpg      mail     _                        _    _    _
+  _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
+  _    esc   @myMouse    mbck   mfwd   @mwu   pgup   home   up    end    del   esc   ins    _               _    _    _     _    _    _    _
+  _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
+  _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   _     _   _    _                                       _          _    _    _    _ 
+  _    _    _              ret            _    _    _    _                                             _    _    _     _    _
+)
+
+;; Mouse Layer - Precision and Accelerated Control
+(deflayer mouse
+  XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX                           XX    XX    XX
+  XX    XX    XX    XX    XX    XX    @ma↑    XX    XX    pgup    @mwu    pgdn    lctl    XX             XX    XX    XX     XX    XX    XX    XX
+  XX    XX    XX    XX    XX    @ma←  @ma↓  @ma→    @ms↑   @mwl    @mwd   @mwr    XX    XX               XX    XX    XX     XX    XX    XX    XX
+  XX    XX    XX    XX    @fms  @sm   XX    @ms←    @ms↓   @ms→    XX    XX    XX                         XX    XX    XX
+  XX    XX    XX    XX    mlft  mmid  mrgt  XX      mbck   mfwd  XX    XX                                XX         XX   XX   XX   XX
+  XX    XX    XX              XX             XX     XX    XX    XX                                      XX    XX    XX     XX    XX
+)
+
+;; NumPad Layer - Numbers & Symbols
+(deflayer NumPad
+  _    _     _     _      _      _      _       _    _    _    _     _    _                            _    _    _
+  _    S-1   S-2   S-3    S-4    S-5    S-6     7    8    9    kp-   kp*  =     _                      _    _    _     _    _    _    _
+  _    home  up    end    del    esc    pgup    4    5    6    kp+   S-9  S-0   ,                      _    _    _     _    _    _    _ 
+  _    left  down  rght   bspc   nlck   pgdn    1    2    3    kprt  '    _                                            _    _    _
+  _    C-z   C-x   C-c    C-v    vold  volu   0    0    .    kp/   _                                        _          _    _    _    _
+  _    _     _             _            _       _    _    _                                            _    _    _     _    _
+)
+
+
+;; QWERTY Layer - Alternative Layout
+(deflayer QWERTY
+  esc  F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12                           prnt slck pause
+  grv  1     2     3     4     5     6     7     8     9     0     -     =     bspc       @toggle-layout    home pgup  nlck kp/  kp*  kp-
+  tab  q     w     e     r     t     y     u     i     o     p     [     ]     \                       del  end  pgdn  kp7  kp8  kp9  kp+
+  @myExtend  @a-mouse     s     d     f     g     h     j     k     l     ;     '     ret                                     kp4  kp5  kp6
+  lsft z     x     c     v     b     n     m     ,     .     /     rsft                                     up         kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc            @num-alt    rmet    @media-lay  rctl                       left down rght  kp0  kp.
+)
+
+;; Unicode Layer - Accessed by holding 'g' key
+(deflayer Unicode
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                                      XX   XX   XX
+  XX   @hey   @complement   @thmup   @hmmm   XX   XX   XX   XX   XX   XX   XX   XX   XX                                 XX   XX   XX   XX   XX   XX   XX
+  XX   @u-q @u-w @u-f @u-p @u-g @u-j @u-l @u-u @u-y @u-sc @u-lb @u-rb XX                                XX   XX   XX   XX   XX   XX   XX
+  XX   @u-a @u-r @u-s @u-t @u-d @u-h @u-n @u-e @u-i @u-o @u-qu @u-bs                                   XX   XX   XX
+  XX   @u-z @u-x @u-c @u-v @u-b @u-k @u-m @u-cm @u-pd @u-sl XX                                        XX         XX   XX   XX   XX
+  XX   XX   XX             XX             XX   XX   XX   XX                                           XX   XX   XX   XX   XX
+)
+
+;; (WIP) Media Layer - Multimedia & System Controls
+( deflayer media
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
+  _    _    _    _    _    brup  volu   mute     @ma↑          wkup   _    _    hmpg    _              _    _    _     _    _    _    _
+  _    _    _    _    _    brdn  vold  @ma←   @ma↓   @ma→     _    _    _                                              _    _    _
+  _    _    _    _    _    _     _      _      prev   pp    next    _                                       _          _    _    _    _
+  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+)
