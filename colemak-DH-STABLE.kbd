@@ -38,12 +38,11 @@
   myExtend   (layer-toggle EXTEND)  ;; Navigation and function keys
   num-mode   (layer-toggle NumPad)  ;; Numbers and symbols
   myMouse    (layer-toggle mouse)   ;; Mouse controls
-  media-lay  (layer-toggle media)   ;; Media controls
   uni-mode   (layer-toggle Unicode) ;; Unicode/emoji layer
   
   ;; Dual-purpose keys (tap for character, hold for layer)
   ;; Increased hold-timeout for mouse keys to avoid conflicts with accelerator
-  s-mouse    (tap-hold $tap-timeout 350 s @myMouse)
+  r-mouse    (tap-hold $tap-timeout 350 r @myMouse)
   f-mouse    (tap-hold $tap-timeout 350 f @myMouse)
   h-unicode  (tap-hold $tap-timeout $hold-timeout h @uni-mode)
   m-unicode  (tap-hold $tap-timeout $hold-timeout m @uni-mode)
@@ -137,7 +136,6 @@
 )
 
 
-
 ;; Layer Definitions
 
 ;; Colemak-DH Base Layer
@@ -145,51 +143,30 @@
   @td-esc _    _    _    _    _    _    _    _    _    _    _    _                                     _    _    _
   grv     _    _    _    _    _    _    _    _    _    _    _    _    _                   @toggle-layout    _    _     _    _    _    _
   tab     q    w    f    p    b    j    l    u    y    ;    [    ]    \                                _    _    _     _    _    _    _
-  @myExtend    a    r    @s-mouse  t    g    @m-unicode    n    e    i   o     '    ret                              _    _    _
+  @myExtend    a    @r-mouse  s    t    g    m    n    e    i   o     '    ret                                         _    _    _
   lsft    z    x    c    d    v    k    h    ,    .    /    rsft                                            _          _    _    _    _
-  lctl    lmet    lalt          spc          @alt-num    rmet    @media-lay    rctl                    _    _    _     _    _
+  lctl    lmet    lalt          spc          @alt-num    rmet    menu    rctl                          _    _    _     _    _
 )
-
-;; Mouse Layer - Precision and Accelerated Control
-(deflayer mouse
-  XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX                           XX    XX    XX
-  XX    XX    XX    XX    XX    @fms  @ma↑  XX    XX    pgup  @mwu  pgdn  lctl    XX                   XX    XX    XX     XX   XX    XX    XX
-  XX    XX    XX    XX    @fms  @ma←  @ma↓  @ma→  @ms↑  @mwl  @mwd  @mwr  XX    XX                     XX    XX    XX     XX   XX    XX    XX
-  XX    XX    XX    XX    @fms  @fms  @sm   @ms←  @ms↓  @ms→  XX    XX    XX                                              XX   XX    XX
-  XX    XX    XX    XX    mlft  mmid  mrgt  XX      mbck   mfwd  XX    XX                                    XX           XX   XX   XX   XX
-  XX    XX    XX              XX             XX     XX    XX    XX                                     XX    XX    XX     XX   XX
-)
-
-;; EXTEND Layer - Navigation & Function Keys
-(deflayer EXTEND
-  caps ▶⏸   ◀◀     ▶▶   🔇      🔉     🔊     🔆     🔅    _      hmpg  mail  _                        _    _    _
-  _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
-  _    esc   @myMouse    mbck   mfwd   @mwu   pgup   home   up    end    del   esc   ins    _          _    _    _     _    _    _    _
-  _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
-  _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   _     _   _    _                                       _          _    _    _    _
-  _    _    _              ret            _    _    _    _                                             _    _    _     _    _
-)
-
-
 
 ;; QWERTY Layer - Alternative Layout
 (deflayer QWERTY
   esc  F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12                           prnt slck pause
   grv  1     2     3     4     5     6     7     8     9     0     -     =     bspc       @toggle-layout    home pgup  nlck kp/  kp*  kp-
   tab  q     w     e     r     t     y     u     i     o     p     [     ]     \                       del  end  pgdn  kp7  kp8  kp9  kp+
-  @myExtend  a     s     d     @f-mouse    g     @h-unicode  j     k     l     ;     '     ret                              kp4  kp5  kp6
+  @myExtend  a     s     d     @f-mouse    g     h     j     k     l     ;     '     ret                               kp4  kp5  kp6
   lsft z     x     c     v     b     n     m     ,     .     /     rsft                                     up         kp1  kp2  kp3  kprt
-  lctl lmet lalt           spc            @alt-num    rmet   @media-lay  rctl                         left down rght  kp0  kp.
+  lctl lmet lalt           spc            @alt-num    rmet   menu  rctl                                left down rght  kp0  kp.
 )
 
-;; Unicode Layer
-(deflayer Unicode
-  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                                       XX   XX   XX
-  XX   @hey   @complement   @thmup   @hmmm   XX   XX   XX   XX   XX   XX   XX   XX   XX                XX   XX   XX   XX   XX   XX   XX
-  XX   @u-q @u-w @u-f @u-p @u-g @u-j @u-l @u-u @u-y @u-sc @u-lb @u-rb @u-bs                            XX   XX   XX   XX   XX   XX   XX
-  XX   @u-a @u-r @u-s @u-t @u-d @u-h @u-n @u-e @u-i @u-o @u-qu XX                                                     XX   XX   XX
-  XX   @u-z @u-x @u-c @u-v @u-b @u-k @u-m @u-cm @u-pd @u-sl XX                                              XX        XX   XX   XX   XX
-  XX   XX   XX             XX             XX   XX   XX   XX                                            XX   XX   XX   XX   XX
+
+;; EXTEND Layer - Navigation & Function Keys
+(deflayer EXTEND
+  caps ▶⏸   ◀◀     ▶▶   🔇     🔉     🔊    🔆     🔅    _      hmpg  mail  _                    _    _    _
+  _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
+  _    esc   @myMouse    mbck   mfwd   @mwu   pgup   home   up    end   del   esc   ins    _           _    _    _     _    _    _    _
+  _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
+  _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   _     _   _    @uni-mode                               _          _    _    _    _
+  _    _    _              ret            _    _    _    _                                             _    _    _     _    _
 )
 
 ;; NumPad Layer - Numbers & Symbols
@@ -202,12 +179,24 @@
   _    _     _             _            _       _    _    _                                            _    _    _     _    _
 )
 
-;; Media Layer - Multimedia & System Controls
-(deflayer media
-  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
-  _    _    _    _    _    brup  volu   mute     @ma↑          wkup   _    _    hmpg    _              _    _    _     _    _    _    _
-  _    _    _    _    _    brdn  vold  @ma←   @ma↓   @ma→     _    _    _                                              _    _    _
-  _    _    _    _    _    _     _      _      prev   pp    next    _                                       _          _    _    _    _
-  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+;; Unicode Layer
+(deflayer Unicode
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                                       XX   XX   XX
+  XX   @hey   @complement   @thmup   @hmmm   XX   XX   XX   XX   XX   XX   XX   XX   XX                XX   XX   XX   XX   XX   XX   XX
+  tab   @u-q @u-w @u-f @u-p @u-g @u-j @u-l @u-u @u-y @u-sc @u-lb @u-rb @u-bs                           XX   XX   XX   XX   XX   XX   XX
+  XX   @u-a @u-r @u-s @u-t @u-d @u-h @u-n @u-e @u-i @u-o @u-qu XX                                                     XX   XX   XX
+  XX   @u-z @u-x @u-c @u-v @u-b @u-k @u-m @u-cm @u-pd @u-sl XX                                              XX        XX   XX   XX   XX
+  XX    XX    XX              spc             XX     XX    XX    XX                                    XX   XX   XX   XX   XX
+)
+
+
+
+;; Mouse Layer - Precision and Accelerated Control
+(deflayer mouse
+  XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX                           XX    XX    XX
+  XX    XX    XX    XX    XX    XX    @ma↑  XX    XX    pgup  @mwu  pgdn  lctl    XX                   XX    XX    XX     XX   XX    XX    XX
+  XX    XX    XX    XX    XX    @ma←  @ma↓  @ma→  @ms↑  @mwl  @mwd  @mwr  XX    XX                     XX    XX    XX     XX   XX    XX    XX
+  XX    XX    XX    @fms  XX    @fms  @sm   @ms←  @ms↓  @ms→  XX    XX    XX                                              XX   XX    XX
+  XX    XX    XX    XX    mlft  mmid  mrgt   XX    XX   mbck   mfwd    XX                                    XX           XX   XX   XX   XX
+  XX    XX    XX              XX             XX     XX    XX    XX                                     XX    XX    XX     XX   XX
 )

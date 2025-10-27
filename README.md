@@ -11,16 +11,16 @@ Personal keyboard configurations for [Kanata](https://github.com/jtroo/kanata) w
 ## Features
 
 **Layers:**
-- **EXTEND** - Navigation, F-keys, media controls
+- **EXTEND** - Navigation, F-keys, brightness + media controls
 - **NumPad** - Numbers and symbols
-- **Mouse** - Cursor, scroll, and buttons
-- **Media** - Volume, brightness, playback
+- **Mouse** - Cursor, scroll, and Mouse buttons
 - **Unicode** - Macros and emojis
+  - **Right shift** in extend layer
 
 **Advanced:**
 - Tap-Hold keys (tap = character, hold = layer)
 - Tap-Dance (multi-tap = different actions)
-- Layout toggle (Colemak ↔ QWERTY)
+- Layout toggle (Colemak ↔ QWERTY) with `ins` key
 
 ## Usage
 
@@ -34,5 +34,3 @@ kanata.exe --cfg colemak-DH-STABLE.kbd
 sudo kanata --cfg colemak-DH-STABLE.kbd
 ```
 
-### Systemd Service
-Copy `systemd-kanata.service` to `/etc/systemd/system/` for auto-start on Linux.
