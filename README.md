@@ -2,11 +2,13 @@
 
 Personal keyboard configurations for [Kanata](https://github.com/jtroo/kanata) with Colemak-DH and QWERTY layouts.
 
+This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://dreymar.colemak.org/layers-extend.html) and based on [**Colemak**](https://colemak.org/).
+
 ## Configurations
 
 - **colemak-DH-STABLE.kbd** - Full-featured Colemak-DH (recommended)
 - **colemak-DH-Twilight.kbd** - Experimental Colemak-DH variant
-- **QWERTY-EXTEND(needs-update).kbd** - QWERTY layout (QWERTY-only, no Colemak layer)
+- **QWERTY-EXTEND.kbd** - QWERTY layout (QWERTY-only, no Colemak layer)
 
 ## Features
 
@@ -14,7 +16,7 @@ Personal keyboard configurations for [Kanata](https://github.com/jtroo/kanata) w
 - **EXTEND** - Navigation, F-keys, brightness + media controls
 - **NumPad** - Numbers and symbols
 - **Mouse** - Cursor, scroll, and Mouse buttons
-- **Unicode** - Macros and emojis
+- **Unicode** - Macros and emojis (Japanease Kaomoji)
   - **Right shift** in extend layer
 
 **Advanced:**
@@ -24,13 +26,18 @@ Personal keyboard configurations for [Kanata](https://github.com/jtroo/kanata) w
 
 ## Usage
 
-### Windows
-```sh
-kanata.exe --cfg colemak-DH-STABLE.kbd
-```
-
 ### Linux
 ```sh
 sudo kanata --cfg colemak-DH-STABLE.kbd
 ```
 
+### Windows
+```sh
+kanata.exe --cfg colemak-DH-STABLE.kbd
+```
+
+## Credits
+
+- [**DreymaR's BigBag**](https://dreymar.colemak.org/layers-extend.html) - Extended layer and advanced Colemak configurations
+- [**Kanata**](https://github.com/jtroo/kanata) - Keyboard remapper for Linux and Windows
+- [**Colemak**](https://colemak.org/) - Modern keyboard layout optimized for speed and ergonomics
