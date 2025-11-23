@@ -16,8 +16,7 @@ This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://drey
 - **EXTEND** - Navigation, F-keys, brightness + media controls
 - **NumPad** - Numbers and symbols
 - **Mouse** - Cursor, scroll, and Mouse buttons
-- **Unicode** - Macros and emojis (Japanease Kaomoji)
-  - **Right shift** in extend layer
+- **Unicode** - Macros and emojis (Japanese Kaomoji)
 
 **Advanced:**
 - Tap-Hold keys (tap = character, hold = layer)
@@ -33,11 +32,19 @@ sudo kanata --cfg colemak-DH-STABLE.kbd
 
 ### Windows
 ```sh
-kanata.exe --cfg colemak-DH-STABLE.kbd
+# Without interception driver (recommended)
+windows-binaries\kanata_windows_tty_winIOv2_x64.exe --cfg colemak-DH-STABLE.kbd
+
+# With interception driver installed
+windows-binaries\kanata_windows_tty_wintercept_x64.exe --cfg colemak-DH-STABLE.kbd
 ```
+
+>[!IMPORTANT]
+> The `wintercept` variant requires the `windows-interception` driver to be installed first. If you haven't installed it, use the `winIOv2_x64.exe` version instead. see why in the [official guide](https://github.com/jtroo/kanata/releases/tag/v1.10.0).
+
 
 ## Credits
 
-- [**DreymaR's BigBag**](https://dreymar.colemak.org/layers-extend.html) - Extended layer and advanced Colemak configurations
-- [**Kanata**](https://github.com/jtroo/kanata) - Keyboard remapper for Linux and Windows
+- [**DreymaR's BigBag**](https://dreymar.colemak.org/layers-extend.html) - Extended layer and other Colemak configurations
+- [**Kanata**](https://github.com/jtroo/kanata) - Keyboard remapper for Linux, Windows, and macOS
 - [**Colemak**](https://colemak.org/) - Modern keyboard layout optimized for speed and ergonomics
