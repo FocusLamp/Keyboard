@@ -1,0 +1,186 @@
+
+;; Colemak-DH with Home Row Numbers, Mouse, Extended layers
+;; TEST VERSION with Home Row Number Layer
+
+(defcfg 
+  process-unmapped-keys yes  ;; Pass-through undefined keys
+  concurrent-tap-hold yes    ;; Allows multiple tap-holds simultaneously
+  log-layer-changes yes      ;; Layer change logging for debugging
+)
+
+
+(defsrc
+  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                 prnt slck pause
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc      ins  home pgup nlck kp/  kp*  kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \         del  end  pgdn kp7  kp8  kp9  kp+
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret                           kp4  kp5  kp6
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft                     up        kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc            ralt rmet cmp  rctl                left down rght kp0  kp.
+)
+
+;; Configuration Variables
+(defvar
+  ;; Mouse settings
+  mouse-interval 1      ;; Mouse movement polling interval
+  mouse-accel-time 1000 ;; Time to reach max speed (ms)
+  mouse-min-speed 1     ;; Starting mouse speed
+  mouse-max-speed 5     ;; Maximum mouse speed
+  wheel-interval 50     ;; Scroll wheel interval
+  wheel-distance 150    ;; Scroll distance per tick
+  
+  ;; Timing settings
+  tap-timeout 300       ;; Max time for tap recognition (ms)
+  hold-timeout 300      ;; Min time for hold recognition (ms)
+  capsword-timeout 2000 ;; Auto-disable caps word after (ms)
+  
+  ;; Home row mods timing
+  hrm-tap 250           ;; Home row mod tap timeout (ms)
+  hrm-hold 250          ;; Home row mod hold timeout (ms)
+)
+
+;; Layer and Function Aliases
+(defalias
+
+  ;; Thumb cluster keys (tap-hold for layer access)
+  bNum  (tap-hold 200 200 bspc (layer-toggle SYMBOLS))  ;; Backspace / Numbers layer
+  sNav  (tap-hold 200 200 spc (layer-toggle shiftedE))  ;; Space / Navigation layer
+
+  ;; Home row mods (tap for letter, hold for modifier)
+  aA    (tap-hold $hrm-tap $hrm-hold a lalt)
+  oA    (tap-hold $hrm-tap $hrm-hold o lalt)
+  rM    (tap-hold $hrm-tap $hrm-hold r lmet)
+  iM    (tap-hold $hrm-tap $hrm-hold i rmet)
+  nC    (tap-hold $hrm-tap $hrm-hold n lctl)
+  tC    (tap-hold $hrm-tap $hrm-hold t lctl)
+  sS    (tap-hold $hrm-tap $hrm-hold s lsft)
+  eS    (tap-hold $hrm-tap $hrm-hold e lsft)
+
+  ;; Layer toggles
+  ext   (layer-toggle EXTEND)    ;; Navigation and function keys
+  sftE  (layer-toggle shiftedE)  ;; Minimal extend (arrows + mouse back/fwd)
+  mous  (layer-toggle mouse)     ;; Mouse controls
+  sym   (layer-while-held SYMBOLS)  ;; Hold Right Alt for numbers & symbols
+  
+  ;; Dual-purpose keys (tap for character, hold for layer)
+  atab  (tap-hold $tap-timeout $hold-timeout z A-tab)    ;; Alt-Tab on z
+  satb  (tap-hold $tap-timeout $hold-timeout x S-A-tab)  ;; Alt-Shift-Tab on x
+  rmos  (tap-hold $tap-timeout 350 r @mous)
+  fmos  (tap-hold $tap-timeout 350 f @mous)
+
+  ;; Right Alt tap-hold for symbols layer
+  rsym  (tap-hold $tap-timeout $hold-timeout ralt @sym)
+  
+  ;; Mouse wheel controls
+  mwu   (mwheel-up $wheel-interval $wheel-distance)
+  mwd   (mwheel-down $wheel-interval $wheel-distance)
+  mwl   (mwheel-left $wheel-interval $wheel-distance)
+  mwr   (mwheel-right $wheel-interval $wheel-distance)
+  
+  ;; Precise mouse movement (1px at a time)
+  ms↑   (movemouse-up $mouse-interval 1)
+  ms←   (movemouse-left $mouse-interval 1)
+  ms↓   (movemouse-down $mouse-interval 1)
+  ms→   (movemouse-right $mouse-interval 1)
+  
+  ;; Accelerated mouse movement
+  ma↑   (movemouse-accel-up $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma←   (movemouse-accel-left $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma↓   (movemouse-accel-down $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma→   (movemouse-accel-right $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  
+  ;; Mouse utilities
+  sm    (setmouse 32228 32228)    ;; Center mouse
+  fms   (movemouse-speed 240)     ;; Fast mouse speed (240%)
+  
+  ;; Smart features
+  cw    (caps-word $capsword-timeout)
+  
+  ;; Multi-tap actions
+  tdesc (tap-dance 200 (esc caps @cw))  ;; 1x=esc, 2x=caps, 3x=caps-word
+  tddot (tap-dance 200 (. S-1 S-/))     ;; 1x=., 2x=!, 3x=?
+  tdcom (tap-dance 200 (, ; S-;))       ;; 1x=,, 2x=;, 3x=:
+  
+  ;; Layout switching
+  swap  (switch
+    ((base-layer QWERTY)) (layer-switch Colemak-DH) break
+    ((base-layer Colemak-DH)) (layer-switch QWERTY) break
+  )
+)
+
+;; Layer Definitions
+
+  ;; esc  a r s  t  g    _    _    m    n  e  i  o  '         _    _    _    _    _    _    _
+;; Colemak-DH Base Layer
+(deflayer Colemak-DH
+  esc  _    _    _    _    _    _    _    _    _    _    _    _              _    _    _
+  esc  q    w    f    p    b    _    _    j    l    u    y    ;    _        @swap _    _    _    _    _    _
+  @sftE  @aA @rmos @sS  @tC  g    _    _    m    @nC  @eS  @iM  @oA  '         _    _    _    _    _    _    _
+  lsft z    x    c    d    v    _    _    k    h    ,    .    rsft                          _    _    _
+  lsft XX   XX  @sNav tab  XX    XX    XX   @bNum /   XX   rsft                   _         _    _    _    _
+  lctl lmet lalt           ret            @rsym rmet menu rctl               _    _    _    _    _
+)
+
+;; Shifted EXTEND Layer - Minimal navigation (arrows + mouse back/fwd)
+(deflayer shiftedE
+  _    _    _    _    _    _    _    _    _    _    _    _    _              _    _    _
+  _    esc  _    mbck mfwd _    _    _    ⇞    ⇤    ▲    ⇥    _    _         _    _    _    _    _    _    _
+  _    alt  met  lsft lctl _    _    _    ⇟    ◀    ▼    ▶    bspc _         _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _                        _         _    _    _    _
+  _    _    _              _              _    _    _    _                   _    _    _    _    _
+)
+
+;; QWERTY Layer - Alternative Layout
+(deflayer QWERTY
+  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12            prnt slck pause
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc     @swap home pgup nlck kp/  kp*  kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \         del  end  pgdn kp7  kp8  kp9  kp+
+  @ext a    s    d    f    g    h    j    k    l    ;    '    ret                           kp4  kp5  kp6
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft                     up        kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc            @rsym rmet menu rctl               left down rght kp0  kp.
+)
+
+
+;; EXTEND Layer - Navigation & Function Keys
+(deflayer EXTEND
+  caps ▶⏸   ◀◀   ▶▶   🔇   🔉   🔊   🔆   🔅   _    hmpg mail _              _    _    _
+  _    F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12  _         _    _    _    _    _    _    _
+  _    esc  @mous mbck mfwd @mwu pgup home up   end  del  esc  ins  _        _    _    _    _    _    _    _
+  _    lalt lmet lsft lctl  @mwd pgdn left down rght bspc menu prnt                         _    _    _
+  _    C-z  C-x  C-c  mlft C-v  mmid mrgt bck  fwd  _    _                        _         _    _    _    _
+  _    _    _              ret            _    _    _    _                   _    _    _    _    _
+)
+
+
+;; SYMBOLS Layer - Numbers on Home Row (split-keyboard style)
+;; Hold Right Alt or @bNum to access this layer
+(deflayer SYMBOLS
+  _    _    _    _    _    _    _    _    _    _    _    _    _              _    _    _
+  _    S-1  S-2  S-3  S-4  S-5  _    _    S-6  S-7  S-8  S-9  S-0  S-grv     _    _    _    _    _    _    _
+  _    1    2    3    4    5    _    _    6    7    8    9    0    grv       _    _    _    _    _    _    _
+  _    S--  -    S-=  [    ]    _    _    S-[  S-]  S-;  ;    S-\                           _    _    _
+  _    _    _    _    =    \    _    _    +    _    _    _                        _         _    _    _    _
+  _    _    _              spc            _    _    _    _                   _    _    _    _    _
+)
+
+
+;; Mouse Layer - Precision and Accelerated Control
+(deflayer mouse
+  _    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX             XX   XX   XX
+  XX   XX   XX   XX   XX   XX   @ma↑ XX   XX   @mwu @ms↑ @mwd lctl XX        XX   XX   XX   XX   XX   XX   XX
+  _    XX   XX   XX   XX   @ma← @ma↓ @ma→ @ms↑ @ms← @ms↓ @ms→ XX   XX        XX   XX   XX   XX   XX   XX   XX
+  _    XX   XX   @fms XX   @fms @sm  @ms← @ms↓ @ms→ XX   XX   XX                       XX   XX   XX
+  _    XX   XX   mlft mrgt mmid XX   XX   mbck mfwd XX   _                        XX        XX   XX   XX   XX
+  _    _    _              spc            _    _    _    _                   XX   XX   XX   XX   XX
+)
+
+
+;; Media Layer - Multimedia & System Controls
+;;(deflayer media
+;;  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+;;  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
+;;  _    _    _    _    _    brup  volu   mute     @ma↑          wkup   _    _    hmpg    _              _    _    _     _    _    _    _
+;;  _    _    _    _    _    brdn  vold  @ma←   @ma↓   @ma→     _    _    _                                              _    _    _
+;;  _    _    _    _    _    _     _      _      prev   pp    next    _                                       _          _    _    _    _
+;;  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+;;)
