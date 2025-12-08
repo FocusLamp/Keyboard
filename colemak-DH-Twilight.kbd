@@ -3,6 +3,7 @@
 (defcfg 
   process-unmapped-keys yes  ;; Pass-through undefined keys
   concurrent-tap-hold yes    ;; Allows multiple tap-holds simultaneously
+  movemouse-smooth-diagonals yes
   log-layer-changes yes      ;; Layer change logging for debugging
 )
 
@@ -16,7 +17,6 @@
   lctl lmet lalt           spc            ralt rmet cmp  rctl                                          left down rght  kp0  kp.
 )
 
-;; Configuration Variables
 (defvar
   ;; Mouse settings
   mouse-interval 1      ;; Mouse movement polling interval
@@ -42,20 +42,18 @@
   ext   (layer-toggle EXTEND)  ;; Navigation and function keys
   num   (layer-toggle NumPad)  ;; Numbers and symbols
   mse   (layer-toggle mouse)   ;; Mouse controls
-  uni   (layer-toggle Unicode) ;; Unicode/emoji layer
+  med (layer-toggle media)     ;; Media controls
+  priv  (layer-toggle privt)   ;; Obfuscated typing layer
   
-  ;; Dual-purpose keys (tap for character, hold for layer)
   r-mse (tap-hold $tap-timeout 350 r @mse)
   
-  ;; Low-frequency key mods (z=0.07%, x=0.15%, j=0.15%, k=0.77%, q=0.10%)
-  ;; Home row stays completely FREE - no tap-hold delays on common letters!
-  zS    (tap-hold $hrm-tap $hrm-hold z lsft)   ;; Left pinky: Shift
-  xC    (tap-hold $hrm-tap $hrm-hold x lctl)   ;; Left ring: Ctrl
-  qA    (tap-hold $hrm-tap $hrm-hold q lalt)   ;; Left pinky top: Alt
-  jS    (tap-hold $hrm-tap $hrm-hold j lsft)   ;; Right index top: Shift
-  kC    (tap-hold $hrm-tap $hrm-hold k lctl)   ;; Right index bottom: Ctrl
+  zS    (tap-hold $hrm-tap $hrm-hold z lsft)
+  xC    (tap-hold $hrm-tap $hrm-hold x lctl)
+  qA    (tap-hold $hrm-tap $hrm-hold q lalt)
+  jS    (tap-hold $hrm-tap $hrm-hold j lsft)
+  kC    (tap-hold $hrm-tap $hrm-hold k lctl)
 
-  alNum (tap-hold $tap-timeout 700 lalt @num)
+  alNum (tap-hold $tap-timeout 500 lalt @num)
   
   ;; Mouse wheel controls
   mwu (mwheel-up $wheel-interval $wheel-distance)
@@ -79,7 +77,6 @@
   sm  (setmouse 32228 32228)    ;; Center mouse
   fms (movemouse-speed 240)     ;; Fast mouse speed (240%)
   
-  ;; Smart features
   cw  (caps-word $capsword-timeout)
   
   ;; Multi-tap actions
@@ -92,55 +89,93 @@
     ((base-layer QWERTY)) (layer-switch Colemak-DH) break
     ((base-layer Colemak-DH)) (layer-switch QWERTY) break
   )
+
+  ;; Toggle to obfuscated private layer
+  obfs (switch
+    ((base-layer privt)) (layer-switch Colemak-DH) break
+    () (layer-switch privt) break
+  )
 )
 
-;; Unicode & Text Macros (Kaomoji and Emoji)
 (defalias
-  ;; Top row kaomoji
-  u-q  (macro (clipboard-save 1) (clipboard-set "(✿◠‿◠)")      30 C-v (clipboard-restore 1))  ;; Flower girl
-  u-w  (macro (clipboard-save 1) (clipboard-set "( のvの)")      30 C-v (clipboard-restore 1))  ;; Wise owl
-  u-f  (macro (clipboard-save 1) (clipboard-set "( ╯°□°）╯︵ ┻━┻") 30 C-v (clipboard-restore 1))  ;; Flip table
-  u-p  (macro (clipboard-save 1) (clipboard-set "┬─┬ ノ( °‿°ノ)") 30 C-v (clipboard-restore 1))  ;; Restore table
-  u-g  (macro (clipboard-save 1) (clipboard-set "☆*:.｡. o(⁎≧▽≦)o .｡.:*☆") 30 C-v (clipboard-restore 1))  ;; Celebration
-  u-j  (macro (clipboard-save 1) (clipboard-set "∩(◕‿◕｡)∩～♪")  30 C-v (clipboard-restore 1))  ;; Joyful
-  u-l  (macro (clipboard-save 1) (clipboard-set "( ͡° ͜ʖ ͡°)")    30 C-v (clipboard-restore 1))  ;; Lenny
-  u-u  (macro (clipboard-save 1) (clipboard-set "ʕ  ͡° ʖ̯ ͡°ʔ")    30 C-v (clipboard-restore 1))  ;; Unhappy
-  u-y  (macro (clipboard-save 1) (clipboard-set "ლ(ಠ益ಠ ლ)")     30 C-v (clipboard-restore 1))  ;; Confusion
-  u-sc (macro (clipboard-save 1) (clipboard-set "(ʘ言ʘ╬)")      30 C-v (clipboard-restore 1))  ;; Shocked
-  u-lb (macro (clipboard-save 1) (clipboard-set "ヽ༼ຈل͜ຈ༽ﾉ")      30 C-v (clipboard-restore 1))  ;; Donger
-  u-rb (macro (clipboard-save 1) (clipboard-set "ᕕ( ᐛ )ᕗ")      30 C-v (clipboard-restore 1))  ;; Happy
-
-  ;; Home row kaomoji
-  u-a  (macro (clipboard-save 1) (clipboard-set "( ⌐■_■)=/̵͇̿̿/'̿'̿ ̿ ̿̿ ̿̿ ̿̿") 30 C-v (clipboard-restore 1))  ;; Agent
-  u-r  (macro (clipboard-save 1) (clipboard-set "／(⁎≧∇≦)＼")    30 C-v (clipboard-restore 1))  ;; Rabbit
-  u-s  (macro (clipboard-save 1) (clipboard-set "¯\_(ツ)_/¯")    30 C-v (clipboard-restore 1))  ;; Shrug
-  u-t  (macro (clipboard-save 1) (clipboard-set "d( ^◇^)b")      30 C-v (clipboard-restore 1))  ;; Thumbs up
-  u-d  (macro (clipboard-save 1) (clipboard-set "♪～└[∵┌]└[･▥･]┘[┐∵]┘～♪") 30 C-v (clipboard-restore 1))  ;; Dance
-  u-h  (macro (clipboard-save 1) (clipboard-set "(つ♡ ͜ʖ ♡)つ")    30 C-v (clipboard-restore 1))  ;; Hug
-  u-n  (macro (clipboard-save 1) (clipboard-set "(ง ಠ_ಠ)ง")      30 C-v (clipboard-restore 1))  ;; Nope
-  u-e  (macro (clipboard-save 1) (clipboard-set "(⁄ ⁄•⁄ω⁄•⁄ ⁄)")  30 C-v (clipboard-restore 1))  ;; Embarrassed
-  u-i  (macro (clipboard-save 1) (clipboard-set "ฅ(=ʘᆽʘ=)ฅ")     30 C-v (clipboard-restore 1))  ;; Cat
-  u-o  (macro (clipboard-save 1) (clipboard-set "Θώθ")           30 C-v (clipboard-restore 1))  ;; OwO
-  u-qu (macro (clipboard-save 1) (clipboard-set "(ﾉ*･д･)ﾉ")      30 C-v (clipboard-restore 1))  ;; Sorry
-  u-bs (macro (clipboard-save 1) (clipboard-set "ヽ( ⌒o⌒)人(⌒-⌒ )/") 30 C-v (clipboard-restore 1))  ;; Highfive
-
-  ;; Bottom row kaomoji
-  u-z  (macro (clipboard-save 1) (clipboard-set "/╲/|╭( ͡°͡° ͜ʖ ͡°͡°)╮/|╱\\") 30 C-v (clipboard-restore 1))  ;; Spider
-  u-x  (macro (clipboard-save 1) (clipboard-set "୧(  x﹏x)୨")    30 C-v (clipboard-restore 1))  ;; RIP
-  u-c  (macro (clipboard-save 1) (clipboard-set "( ಥ╭╮ಥ)")      30 C-v (clipboard-restore 1))  ;; Crying
-  u-v  (macro (clipboard-save 1) (clipboard-set "( ಸ‿ಸ)")        30 C-v (clipboard-restore 1))  ;; Smug
-  u-b  (macro (clipboard-save 1) (clipboard-set "ฅʕ •ᴥ•ʔฅ")      30 C-v (clipboard-restore 1))  ;; Bear
-  u-k  (macro (clipboard-save 1) (clipboard-set "(=^･ω･^=)丿")   30 C-v (clipboard-restore 1))  ;; Kitty
-  u-m  (macro (clipboard-save 1) (clipboard-set "( ͡ಠ ʖ̯ ͡ಠ)╭∩╮")   30 C-v (clipboard-restore 1))  ;; Middle finger
-  u-cm (macro (clipboard-save 1) (clipboard-set "(づ￣ ³￣)づ")    30 C-v (clipboard-restore 1))  ;; Kiss
-  u-pd (macro (clipboard-save 1) (clipboard-set "(つ_〃*)")       30 C-v (clipboard-restore 1))  ;; Facepalm
-  u-sl (macro (clipboard-save 1) (clipboard-set "( ಠ o ಠ) ¤=(————") 30 C-v (clipboard-restore 1))  ;; Sword
-
-  ;; Text macros (F1-F4 in Unicode layer)
   hey       (macro (clipboard-save 1) (clipboard-set "Hey! 👋") 30 C-v (clipboard-restore 1))
   complement (macro (clipboard-save 1) (clipboard-set "Nice to see you! Well, this is Splendid!") 30 C-v (clipboard-restore 1))
   thmup     (unicode "👍")
   hmmm      (unicode "🤨")
+
+  p-a (unicode "ђ")    ;; Cyrillic dje
+  p-b (unicode "ẞ")    ;; German sharp S
+  p-c (unicode "Ʃ")    ;; Latin Esh
+  p-d (unicode "ð")    ;; Icelandic eth
+  p-e (unicode "ŋ")    ;; Latin eng
+  p-f (unicode "Ω")    ;; Greek omega (capital)
+  p-g (unicode "þ")    ;; Icelandic thorn
+  p-h (unicode "ƒ")    ;; Latin f-hook
+  p-i (unicode "æ")    ;; Latin ae ligature
+  p-j (unicode "Đ")    ;; Latin D-stroke
+  p-k (unicode "œ")    ;; Latin oe ligature
+  p-l (unicode "ß")    ;; German eszett
+  p-m (unicode "Ŧ")    ;; Latin T-stroke
+  p-n (unicode "Ħ")    ;; Latin H-stroke
+  p-o (unicode "ı")    ;; Dotless i
+  p-p (unicode "Ł")    ;; Latin L-stroke
+  p-q (unicode "Ŋ")    ;; Latin Eng capital
+  p-r (unicode "Þ")    ;; Icelandic Thorn capital
+  p-s (unicode "Ð")    ;; Icelandic Eth capital
+  p-t (unicode "ĸ")    ;; Latin kra
+  p-u (unicode "Æ")    ;; Latin AE capital
+  p-v (unicode "Œ")    ;; Latin OE capital
+  p-w (unicode "ŧ")    ;; Latin t-stroke
+  p-x (unicode "ħ")    ;; Latin h-stroke
+  p-y (unicode "ł")    ;; Latin l-stroke
+  p-z (unicode "đ")    ;; Latin d-stroke
+
+  ;; Numbers - mixed unusual but supported numerals
+  p-0 (unicode "∅")    ;; Empty set
+  p-1 (unicode "†")    ;; Dagger
+  p-2 (unicode "‡")    ;; Double dagger
+  p-3 (unicode "‰")    ;; Per mille
+  p-4 (unicode "‱")    ;; Per ten thousand
+  p-5 (unicode "℅")    ;; Care of
+  p-6 (unicode "№")    ;; Numero
+  p-7 (unicode "℗")    ;; Sound recording copyright
+  p-8 (unicode "℠")    ;; Service mark
+  p-9 (unicode "™")    ;; Trademark
+
+  ;; Punctuation - obscure but supported
+  p-dot   (unicode "‥")   ;; Two dot leader
+  p-comma (unicode "⁂")   ;; Asterism
+  p-semi  (unicode "⁀")   ;; Character tie
+  p-colon (unicode "⁁")   ;; Caret insertion point
+  p-quest (unicode "‽")   ;; Interrobang
+  p-excl  (unicode "⁈")   ;; Question exclamation
+  p-apos  (unicode "‛")   ;; Single high reversed quote
+  p-quote (unicode "‟")   ;; Double high reversed quote
+  p-dash  (unicode "⁃")   ;; Hyphen bullet
+  p-slash (unicode "⁄")   ;; Fraction slash
+  p-bslsh (unicode "∖")   ;; Set minus
+  p-lbrk  (unicode "⁅")   ;; Left square bracket quill
+  p-rbrk  (unicode "⁆")   ;; Right square bracket quill
+  p-space (unicode "9")   ;; Invisible separator (sneaky!)
+
+  ;; Symbols - mathematical and typographic oddities
+  p-at    (unicode "⅊")   ;; Property line
+  p-hash  (unicode "⅌")   ;; Per sign
+  p-dolr  (unicode "⅍")   ;; Aktieselskab
+  p-pct   (unicode "⅏")   ;; Reference mark
+  p-amp   (unicode "⁊")   ;; Tironian et
+  p-star  (unicode "⁕")   ;; Flower punctuation
+  p-plus  (unicode "⁜")   ;; Dotted cross
+  p-eq    (unicode "⁐")   ;; Close up
+  p-lt    (unicode "⁘")   ;; Four dot mark
+  p-gt    (unicode "⁙")   ;; Five dot mark
+  p-pipe  (unicode "⁞")   ;; Vertical four dots
+  p-tilde (unicode "⁓")   ;; Swung dash
+  p-caret (unicode "⁔")   ;; Inverted undertie
+  p-grave (unicode "‵")   ;; Reversed prime
+  p-lparn (unicode "⁽")   ;; Superscript left paren
+  p-rparn (unicode "⁾")   ;; Superscript right paren
+  p-under (unicode "‿")   ;; Undertie
 )
 
 
@@ -172,51 +207,59 @@
 (deflayer EXTEND
   caps ▶⏸   ◀◀     ▶▶   🔇     🔉     🔊    🔆     🔅    _      hmpg  mail  _               _    _    _
   _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
-  _    esc   @mse  mbck  mfwd   @mwu   pgup   home   up    end    del   esc   ins    _                 _    _    _     _    _    _    _
+  _    esc   @mse  mbck  mfwd   @mwu   pgup   home   up    end    del   esc   ins    @obfs             _    _    _     _    _    _    _
   _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
-  _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   bck   fwd    _     @uni                                _          _    _    _    _
+  _    C-z   C-x   C-c   mlft   C-v    mrgt   mmid   bck   fwd    @med      _                             _          _    _    _    _
   _    _    _              ret            _    _    _    _                                             _    _    _     _    _
 )
 
-;; NumPad Layer - Numbers & Symbols
 (deflayer NumPad
   _    _     _     _      _      _      _       _    _    _    _     _    _                            _    _    _
-  _    S-1   S-2   S-3    S-4    S-5    S-6     7    8    9    kp-   kp*  =     _                      _    _    _     _    _    _    _
-  _    home  up    end    del    esc    pgup    4    5    6    kp+   S-9  S-0   ,                      _    _    _     _    _    _    _
-  _    left  down  rght   bspc   nlck   pgdn    1    2    3    kprt  '    _                                            _    _    _
-  _    C-z   C-x   C-c    C-v    mlft   S-;     0    0    .    kp/   _                                      _          _    _    _    _
-  _    _     _             _            _       _    _    _                                            _    _    _     _    _
+  _    _     _     _      _      _      _       _    _    _    _     _    _     _                      _    _    _     _    _    _    _
+  _    S-1   S-2   S-3    S-4    S-5    S-6     S-7  S-8  S-9  S-0   [    ]     _                      _    _    _     _    _    _    _
+  _    1     2     3      4      5      6       7    8    9    0     -    =                                            _    _    _
+  bspc `     S-`   S-[    S-]    S--    S-=     kp+  kp-  kp*  ,   .                                        _          _    _    _    _
+  _    _     _             ret                  _    _    _    _                                       _    _    _     _    _
 )
 
-;; Unicode Layer
-(deflayer Unicode
-  _   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                                        XX   XX   XX
-  XX  @hey @complement  @thmup   @hmmm   XX   XX   XX   XX   XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX   XX
-  _   @u-q @u-w @u-f @u-p @u-g @u-j @u-l @u-u @u-y @u-sc @u-lb @u-rb @u-bs                             XX   XX   XX   XX   XX   XX   XX
-  _   @u-a @u-r @u-s @u-t @u-d @u-h @u-n @u-e @u-i @u-o @u-qu XX                                                      XX   XX   XX
-  _   @u-z @u-x @u-c @u-v @u-b @u-k @u-m @u-cm @u-pd @u-sl XX                                               XX        XX   XX   XX   XX
-  _    _    _              spc             _    _    _    _                                            XX   XX   XX   XX   XX
-)
-
-
-
-;; Mouse Layer - Precision and Accelerated Control
 (deflayer mouse
   _    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX                            XX    XX    XX
   XX   XX    XX    XX    XX    XX    @ma↑  XX    XX    pgup  @mwu  pgdn  lctl    XX                   XX    XX    XX     XX   XX   XX   XX
   _    XX    XX    XX    XX    @ma←  @ma↓  @ma→  @ms↑  @mwl  @mwd  @mwr  XX    XX                  XX    XX    XX     XX   XX   XX   XX
   _    XX    XX    @fms  XX    @fms  @sm   @ms←  @ms↓  @ms→  XX    XX    XX                                            XX   XX   XX
-  _    XX    XX    XX    mlft  mmid  mrgt   XX    mbck   mfwd   XX    _                                     XX            XX   XX   XX   XX
+  _    XX    XX    XX    mlft  mrgt  mmid   XX    mbck   mfwd   XX    _                                     XX            XX   XX   XX   XX
   _    _    _              spc             _    _    _    _                                            XX   XX   XX       XX   XX
 )
 
+(deflayer media
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    volu    brup    _    _    _    _    _                             _    _    _     _    _    _    _
+  _    _    _    _    _    _    mute    vold    brdn    _    _    _    _                                               _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _                                                  _          _    _    _    _
+  _    _    _              _              _    _    _    _                                             _    _    _     _    _
+)
 
-;; Media Layer - Multimedia & System Controls
-;;(deflayer media
-;;  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
-;;  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
-;;  _    _    _    _    _    brup  volu   mute     @ma↑          wkup   _    _    hmpg    _              _    _    _     _    _    _    _
-;;  _    _    _    _    _    brdn  vold  @ma←   @ma↓   @ma→     _    _    _                                              _    _    _
-;;  _    _    _    _    _    _     _      _      prev   pp    next    _                                       _          _    _    _    _
-;;  _    _    _              _              _    _    _    _                                             _    _    _     _    _
-;;)
+(deflayer privt
+  _      _      _      _      _      _      _      _      _      _      _      _      _                    _    _    _
+  @p-grave @p-1 @p-2  @p-3   @p-4   @p-5   @p-6   @p-7   @p-8   @p-9   @p-0  @p-dash @p-eq  _              _    _    _     _    _    _    _
+  _      @p-q   @p-w  @p-f   @p-p   @p-b   @p-j   @p-l   @p-u   @p-y  @p-semi @p-lbrk @p-rbrk @p-bslsh     _    _    _     _    _    _    _
+  @ext   @p-a   @p-r  @p-s   @p-t   @p-g   @p-m   @p-n   @p-e   @p-i   @p-o  @p-apos  _                                    _    _    _
+  _      @p-z   @p-x  @p-c   @p-d   @p-v   @p-k   @p-h  @p-comma @p-dot @p-slash _                              _          _    _    _    _
+  _      _      _            @p-space       _      _      _      _                                         _    _    _     _    _
+)
+
+
+#| --------------------------------------------------------------------------------------------------
+=================================  copy to create a new layer    ====================================
+
+(deflayer name
+  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _                          _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _                    _          _    _    _    _
+  _    _    _              _              _    _    _    _               _    _    _     _    _
+)
+
+ -------------------------------------------------------------------------------------------------- |#
