@@ -25,7 +25,7 @@
   mouse-max-speed 5     ;; Maximum mouse speed
   wheel-interval 50     ;; Scroll wheel interval
   wheel-distance 150    ;; Scroll distance per tick
-  
+
   ;; Timing settings
   tap-timeout 200       ;; Max time for tap recognition (ms)
   hold-timeout 200      ;; Min time for hold recognition (ms)
@@ -42,11 +42,10 @@
   ext   (layer-toggle EXTEND)  ;; Navigation and function keys
   num   (layer-toggle NumPad)  ;; Numbers and symbols
   mse   (layer-toggle mouse)   ;; Mouse controls
-  med (layer-toggle media)     ;; Media controls
-  priv  (layer-toggle privt)   ;; Obfuscated typing layer
+  med   (layer-toggle media)     ;; Media controls
   
   r-mse (tap-hold $tap-timeout 350 r @mse)
-  
+ 
   zS    (tap-hold $hrm-tap $hrm-hold z lsft)
   xC    (tap-hold $hrm-tap $hrm-hold x lctl)
   qA    (tap-hold $hrm-tap $hrm-hold q lalt)
@@ -72,29 +71,24 @@
   ma← (movemouse-accel-left $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
   ma↓ (movemouse-accel-down $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
   ma→ (movemouse-accel-right $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
-  
+
   ;; Mouse utilities
   sm  (setmouse 32228 32228)    ;; Center mouse
   fms (movemouse-speed 240)     ;; Fast mouse speed (240%)
-  
+
   cw  (caps-word $capsword-timeout)
-  
+
   ;; Multi-tap actions
-  tdEsc (tap-dance 200 (esc caps @cw))  ;; 1x=esc, 2x=caps, 3x=caps-word
-  tdDot (tap-dance 200 (. S-1 S-/))     ;; 1x=., 2x=!, 3x=?
-  tdCom (tap-dance 200 (, ; S-;))       ;; 1x=,, 2x=;, 3x=:
-  
+  tdEsc (tap-dance 250 (esc @cw))  ;; 1x=esc,  2x=caps-word
+  ;;tdDot (tap-dance 200 (. S-1 S-/))     ;; 1x=., 2x=!, 3x=?
+  ;;tdCom (tap-dance 200 (, ; S-;))       ;; 1x=,, 2x=;, 3x=:
+
   ;; Layout switching
   swap (switch
     ((base-layer QWERTY)) (layer-switch Colemak-DH) break
     ((base-layer Colemak-DH)) (layer-switch QWERTY) break
   )
 
-  ;; Toggle to obfuscated private layer
-  obfs (switch
-    ((base-layer privt)) (layer-switch Colemak-DH) break
-    () (layer-switch privt) break
-  )
 )
 
 (defalias
@@ -102,102 +96,28 @@
   complement (macro (clipboard-save 1) (clipboard-set "Nice to see you! Well, this is Splendid!") 30 C-v (clipboard-restore 1))
   thmup     (unicode "👍")
   hmmm      (unicode "🤨")
-
-  p-a (unicode "ђ")    ;; Cyrillic dje
-  p-b (unicode "ẞ")    ;; German sharp S
-  p-c (unicode "Ʃ")    ;; Latin Esh
-  p-d (unicode "ð")    ;; Icelandic eth
-  p-e (unicode "ŋ")    ;; Latin eng
-  p-f (unicode "Ω")    ;; Greek omega (capital)
-  p-g (unicode "þ")    ;; Icelandic thorn
-  p-h (unicode "ƒ")    ;; Latin f-hook
-  p-i (unicode "æ")    ;; Latin ae ligature
-  p-j (unicode "Đ")    ;; Latin D-stroke
-  p-k (unicode "œ")    ;; Latin oe ligature
-  p-l (unicode "ß")    ;; German eszett
-  p-m (unicode "Ŧ")    ;; Latin T-stroke
-  p-n (unicode "Ħ")    ;; Latin H-stroke
-  p-o (unicode "ı")    ;; Dotless i
-  p-p (unicode "Ł")    ;; Latin L-stroke
-  p-q (unicode "Ŋ")    ;; Latin Eng capital
-  p-r (unicode "Þ")    ;; Icelandic Thorn capital
-  p-s (unicode "Ð")    ;; Icelandic Eth capital
-  p-t (unicode "ĸ")    ;; Latin kra
-  p-u (unicode "Æ")    ;; Latin AE capital
-  p-v (unicode "Œ")    ;; Latin OE capital
-  p-w (unicode "ŧ")    ;; Latin t-stroke
-  p-x (unicode "ħ")    ;; Latin h-stroke
-  p-y (unicode "ł")    ;; Latin l-stroke
-  p-z (unicode "đ")    ;; Latin d-stroke
-
-  ;; Numbers - mixed unusual but supported numerals
-  p-0 (unicode "∅")    ;; Empty set
-  p-1 (unicode "†")    ;; Dagger
-  p-2 (unicode "‡")    ;; Double dagger
-  p-3 (unicode "‰")    ;; Per mille
-  p-4 (unicode "‱")    ;; Per ten thousand
-  p-5 (unicode "℅")    ;; Care of
-  p-6 (unicode "№")    ;; Numero
-  p-7 (unicode "℗")    ;; Sound recording copyright
-  p-8 (unicode "℠")    ;; Service mark
-  p-9 (unicode "™")    ;; Trademark
-
-  ;; Punctuation - obscure but supported
-  p-dot   (unicode "‥")   ;; Two dot leader
-  p-comma (unicode "⁂")   ;; Asterism
-  p-semi  (unicode "⁀")   ;; Character tie
-  p-colon (unicode "⁁")   ;; Caret insertion point
-  p-quest (unicode "‽")   ;; Interrobang
-  p-excl  (unicode "⁈")   ;; Question exclamation
-  p-apos  (unicode "‛")   ;; Single high reversed quote
-  p-quote (unicode "‟")   ;; Double high reversed quote
-  p-dash  (unicode "⁃")   ;; Hyphen bullet
-  p-slash (unicode "⁄")   ;; Fraction slash
-  p-bslsh (unicode "∖")   ;; Set minus
-  p-lbrk  (unicode "⁅")   ;; Left square bracket quill
-  p-rbrk  (unicode "⁆")   ;; Right square bracket quill
-  p-space (unicode "9")   ;; Invisible separator (sneaky!)
-
-  ;; Symbols - mathematical and typographic oddities
-  p-at    (unicode "⅊")   ;; Property line
-  p-hash  (unicode "⅌")   ;; Per sign
-  p-dolr  (unicode "⅍")   ;; Aktieselskab
-  p-pct   (unicode "⅏")   ;; Reference mark
-  p-amp   (unicode "⁊")   ;; Tironian et
-  p-star  (unicode "⁕")   ;; Flower punctuation
-  p-plus  (unicode "⁜")   ;; Dotted cross
-  p-eq    (unicode "⁐")   ;; Close up
-  p-lt    (unicode "⁘")   ;; Four dot mark
-  p-gt    (unicode "⁙")   ;; Five dot mark
-  p-pipe  (unicode "⁞")   ;; Vertical four dots
-  p-tilde (unicode "⁓")   ;; Swung dash
-  p-caret (unicode "⁔")   ;; Inverted undertie
-  p-grave (unicode "‵")   ;; Reversed prime
-  p-lparn (unicode "⁽")   ;; Superscript left paren
-  p-rparn (unicode "⁾")   ;; Superscript right paren
-  p-under (unicode "‿")   ;; Undertie
 )
-
 
 
 ;; Layer Definitions
 
+
 ;; Colemak-DH Base Layer
 (deflayer Colemak-DH
   @tdEsc _    _    _    _    _    _    _    _    _    _    _    _                                       _    _    _
-  grv    _    _    _    _    _    _    _    _    _    _    _    _    _                        @swap     _    _     _    _    _    _
-  tab    @qA  w    f    p    b    @jS  l    u    y    ;    [    ]    \                                  _    _    _     _    _    _    _
-  @ext   a    @r-mse  s    t    g    m    n    e    i    o    '    ret                                           _    _    _
-  lsft   @zS  @xC  c    d    v    @kC  h    ,    .    /    rsft                                              _          _    _    _    _
-  lctl   lmet    lalt          spc          @alNum    rmet    menu    rctl                             _    _    _     _    _
+  grv    _    _    _    _    _    _    _    _    _    _    _    _    _                                 @swap _    _    _    _    _    _
+  tab    @qA  w    f    p    b    @jS  l    u    y    ;    [    ]    \                                  _    _    _    _    _    _    _
+  @ext   a    @r-mse  s    t    g    m    n    e    i    o    '    ret                                                 _    _    _
+  lsft   @zS  @xC  c    d    v    @kC  h    ,    .    /    rsft                                              _         _    _    _    _
+  lctl   lmet    lalt          spc          @alNum    rmet    menu    rctl                              _    _    _    _    _
 )
 
 ;; QWERTY Layer - Alternative Layout
 (deflayer QWERTY
   esc  F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12                           prnt slck pause
-  grv  1     2     3     4     5     6     7     8     9     0     -     =     bspc          @swap     home pgup  nlck kp/  kp*  kp-
+  grv  1     2     3     4     5     6     7     8     9     0     -     =     bspc                   @swap home pgup  nlck kp/  kp*  kp-
   tab  q     w     e     r     t     y     u     i     o     p     [     ]     \                       del  end  pgdn  kp7  kp8  kp9  kp+
-  @ext a     s     d     f     g     h     j     k     l     ;     '     ret                                     kp4  kp5  kp6
+  @ext a     s     d     f     g     h     j     k     l     ;     '     ret                                           kp4  kp5  kp6
   lsft z     x     c     v     b     n     m     ,     .     /     rsft                                     up         kp1  kp2  kp3  kprt
   lctl lmet lalt           spc            @alNum    rmet   menu  rctl                                  left down rght  kp0  kp.
 )
@@ -205,11 +125,11 @@
 
 ;; EXTEND Layer - Navigation & Function Keys
 (deflayer EXTEND
-  caps ▶⏸   ◀◀     ▶▶   🔇     🔉     🔊    🔆     🔅    _      hmpg  mail  _               _    _    _
+  caps ▶⏸    ◀◀      ▶▶    🔇      🔉      🔊      🔆     🔆    _      hmpg  mail  _                   _    _    _
   _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
-  _    esc   @mse  mbck  mfwd   @mwu   pgup   home   up    end    del   esc   ins    @obfs             _    _    _     _    _    _    _
+  _    esc   @mse  mbck  mfwd   @mwu   pgup   home   up    end    del   esc   ins    _                 _    _    _     _    _    _    _
   _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
-  _    C-z   C-x   C-c   mlft   C-v    mrgt   mmid   bck   fwd    @med      _                             _          _    _    _    _
+  _    C-z   C-x   C-c   mlft   C-v    mrgt   mmid   bck   fwd    @med      _                               _          _    _    _    _
   _    _    _              ret            _    _    _    _                                             _    _    _     _    _
 )
 
@@ -224,30 +144,22 @@
 
 (deflayer mouse
   _    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX                            XX    XX    XX
-  XX   XX    XX    XX    XX    XX    @ma↑  XX    XX    pgup  @mwu  pgdn  lctl    XX                   XX    XX    XX     XX   XX   XX   XX
-  _    XX    XX    XX    XX    @ma←  @ma↓  @ma→  @ms↑  @mwl  @mwd  @mwr  XX    XX                  XX    XX    XX     XX   XX   XX   XX
-  _    XX    XX    @fms  XX    @fms  @sm   @ms←  @ms↓  @ms→  XX    XX    XX                                            XX   XX   XX
-  _    XX    XX    XX    mlft  mrgt  mmid   XX    mbck   mfwd   XX    _                                     XX            XX   XX   XX   XX
-  _    _    _              spc             _    _    _    _                                            XX   XX   XX       XX   XX
+  XX   XX    XX    XX    XX    XX    @ma↑  XX    XX    pgup  @mwu  pgdn  lctl    XX                    XX    XX    XX     XX   XX   XX   XX
+  _    XX    XX    XX    XX    @ma←  @ma↓  @ma→  @ms↑  @mwl  @mwd  @mwr  XX    XX                      XX    XX    XX     XX   XX   XX   XX
+  _    XX    XX    @fms  XX    @fms  @sm   @ms←  @ms↓  @ms→  XX    XX    XX                                               XX   XX   XX
+  _    XX    XX    XX    mlft  mrgt  mmid   XX    mbck   mfwd   XX    _                                      XX           XX   XX   XX   XX
+  _    _    _              spc             _    _    _    _                                            XX    XX    XX     XX   XX
 )
 
 (deflayer media
   _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
   _    _    _    _    _    _    _    volu    brup    _    _    _    _    _                             _    _    _     _    _    _    _
-  _    _    _    _    _    _    mute    vold    brdn    _    _    _    _                                               _    _    _
+  _    _    _    _    _    _    mute  vold    brdn    _    _    _    _                                               _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _                                                  _          _    _    _    _
   _    _    _              _              _    _    _    _                                             _    _    _     _    _
 )
 
-(deflayer privt
-  _      _      _      _      _      _      _      _      _      _      _      _      _                    _    _    _
-  @p-grave @p-1 @p-2  @p-3   @p-4   @p-5   @p-6   @p-7   @p-8   @p-9   @p-0  @p-dash @p-eq  _              _    _    _     _    _    _    _
-  _      @p-q   @p-w  @p-f   @p-p   @p-b   @p-j   @p-l   @p-u   @p-y  @p-semi @p-lbrk @p-rbrk @p-bslsh     _    _    _     _    _    _    _
-  @ext   @p-a   @p-r  @p-s   @p-t   @p-g   @p-m   @p-n   @p-e   @p-i   @p-o  @p-apos  _                                    _    _    _
-  _      @p-z   @p-x  @p-c   @p-d   @p-v   @p-k   @p-h  @p-comma @p-dot @p-slash _                              _          _    _    _    _
-  _      _      _            @p-space       _      _      _      _                                         _    _    _     _    _
-)
 
 
 #| --------------------------------------------------------------------------------------------------
