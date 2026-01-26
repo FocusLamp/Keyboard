@@ -1,0 +1,13 @@
+[Unit]
+Description=Kanata service
+Documentation=https://github.com/jtroo/kanata
+; After=network.target # Or other dependencies
+
+[Service]
+ExecStart=kanata --cfg /etc/kanata/colemak-DH-Twilight.kbd -q
+Restart=on-failure
+RestartSec=7
+
+[Install]
+WantedBy=multi-user.target 
+# WantedBy=default.target # For user-specific services
