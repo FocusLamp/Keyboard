@@ -1,0 +1,14 @@
+[Unit]
+Description=Kanata Keyboard Service
+Documentation=https://github.com/jtroo/kanata
+After=systemd-user-sessions.service local-fs.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/kanata --cfg /etc/kanata/colemak-DH-STABLE.kbd --quiet
+#Restart=on-failure
+#RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

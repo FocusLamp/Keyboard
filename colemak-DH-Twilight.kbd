@@ -52,7 +52,7 @@
   jS    (tap-hold $hrm-tap $hrm-hold j lsft)
   kC    (tap-hold $hrm-tap $hrm-hold k lctl)
 
-  alNum (tap-hold $tap-timeout 500 lalt @num)
+  altNum (tap-hold $tap-timeout 500 lalt @num)
   
   ;; Mouse wheel controls
   mwu (mwheel-up $wheel-interval $wheel-distance)
@@ -109,7 +109,7 @@
   tab    @qA  w    f    p    b    @jS  l    u    y    ;    [    ]    \                                  _    _    _    _    _    _    _
   @ext   a    @r-mse  s    t    g    m    n    e    i    o    '    ret                                                 _    _    _
   lsft   @zS  @xC  c    d    v    @kC  h    ,    .    /    rsft                                              _         _    _    _    _
-  lctl   lmet    lalt          spc          @alNum    rmet    menu    rctl                              _    _    _    _    _
+  lctl   lmet    lalt          spc          @altNum    rmet    menu    rctl                              _    _    _    _    _
 )
 
 ;; QWERTY Layer - Alternative Layout
@@ -119,13 +119,13 @@
   tab  q     w     e     r     t     y     u     i     o     p     [     ]     \                       del  end  pgdn  kp7  kp8  kp9  kp+
   @ext a     s     d     f     g     h     j     k     l     ;     '     ret                                           kp4  kp5  kp6
   lsft z     x     c     v     b     n     m     ,     .     /     rsft                                     up         kp1  kp2  kp3  kprt
-  lctl lmet lalt           spc            @alNum    rmet   menu  rctl                                  left down rght  kp0  kp.
+  lctl lmet lalt           spc            @altNum    rmet   menu  rctl                                  left down rght  kp0  kp.
 )
 
 
 ;; EXTEND Layer - Navigation & Function Keys
 (deflayer EXTEND
-  caps ▶⏸    ◀◀      ▶▶    🔇      🔉      🔊      🔆     🔆    _      hmpg  mail  _                   _    _    _
+  caps ▶⏸    ◀◀      ▶▶    🔇      🔉      🔊      🔅    🔆    _      hmpg  mail  _                   _    _    _
   _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
   _    esc   @mse  mbck  mfwd   @mwu   pgup   home   up    end    del   esc   ins    _                 _    _    _     _    _    _    _
   _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _

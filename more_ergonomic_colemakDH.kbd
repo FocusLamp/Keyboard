@@ -173,14 +173,3 @@
   _    XX   XX   mlft mrgt mmid XX   XX   mbck mfwd XX   _                        XX        XX   XX   XX   XX
   _    _    _              spc            _    _    _    _                   XX   XX   XX   XX   XX
 )
-
-
-;; Media Layer - Multimedia & System Controls
-;;(deflayer media
-;;  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
-;;  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
-;;  _    _    _    _    _    brup  volu   mute     @ma↑          wkup   _    _    hmpg    _              _    _    _     _    _    _    _
-;;  _    _    _    _    _    brdn  vold  @ma←   @ma↓   @ma→     _    _    _                                              _    _    _
-;;  _    _    _    _    _    _     _      _      prev   pp    next    _                                       _          _    _    _    _
-;;  _    _    _              _              _    _    _    _                                             _    _    _     _    _
-;;)

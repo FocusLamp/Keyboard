@@ -1,6 +1,7 @@
 (defcfg 
   process-unmapped-keys yes  ;; Pass-through undefined keys
   concurrent-tap-hold yes    ;; Allows multiple tap-holds simultaneously
+  movemouse-smooth-diagonals yes
   log-layer-changes yes      ;; Layer change logging for debugging
 )
 
@@ -18,9 +19,9 @@
 (defvar
   ;; Mouse settings
   mouse-interval 1      ;; Mouse movement polling interval
-  mouse-accel-time 2000 ;; Time to reach max speed (ms)
+  mouse-accel-time 1000 ;; Time to reach max speed (ms)
   mouse-min-speed 1     ;; Starting mouse speed
-  mouse-max-speed 3     ;; Maximum mouse speed
+  mouse-max-speed 5     ;; Maximum mouse speed
   wheel-interval 50     ;; Scroll wheel interval
   wheel-distance 150    ;; Scroll distance per tick
   
@@ -36,6 +37,7 @@
   myExtend   (layer-toggle EXTEND)  ;; Navigation and function keys
   num-mode   (layer-toggle NumPad)  ;; Numbers and symbols
   myMouse    (layer-toggle mouse)   ;; Mouse controls
+  med        (layer-toggle media)   ;; Media controls
   
   ;; Dual-purpose keys (tap for character, hold for layer)
   ;; Increased hold-timeout for mouse keys to avoid conflicts with accelerator
@@ -68,10 +70,9 @@
   cw  (caps-word $capsword-timeout)
   
   ;; Multi-tap actions
-  td-esc (tap-dance 200 (esc caps @cw))  ;; 1x=esc, 2x=caps, 3x=caps-word
-  ;; td-dot (tap-dance 200 (. S-1 S-/))     ;; 1x=., 2x=!, 3x=?
-  ;; td-com (tap-dance 200 (, ; S-;))       ;; 1x=,, 2x=;, 3x=:
+  td-esc (tap-dance 250 (esc @cw))  ;; 1x=esc, 2x=caps-word
 )
+
 
 
 ;; QWERTY Layer
@@ -90,7 +91,7 @@
   _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
   _    esc   @myMouse    mbck   mfwd   @mwu   pgup   home   up    end   del   esc   ins    _           _    _    _     _    _    _    _
   _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
-  _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   bck   fwd    _     _                                   _          _    _    _    _
+  _    C-z   C-x   C-c   mlft   C-v    mmid   mrgt   bck   fwd    @med  _                                   _          _    _    _    _
   _    _    _              ret            _    _    _    _                                             _    _    _     _    _
 )
 
@@ -113,4 +114,13 @@
   _    XX    XX    @fms  XX    @fms  @sm   @ms←  @ms↓  @ms→  XX    XX    XX                                               XX   XX   XX
   _    XX    XX    XX    mlft  mmid  mrgt   XX    mbck   mfwd   XX    _                                     XX            XX   XX   XX   XX
   _    _    _              spc             _    _    _    _                                            XX   XX   XX       XX   XX
+)
+
+(deflayer media
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    volu    brup   _    _    _    _    _                              _    _    _     _    _    _    _
+  _    _    _    _    _    _  mute   vold    brdn   _    _    _    _                                                   _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _                                                  _          _    _    _    _
+  _    _    _              _              _    _    _    _                                             _    _    _     _    _
 )

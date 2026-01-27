@@ -6,9 +6,13 @@ This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://drey
 
 ## Configurations
 
-- **colemak-DH-STABLE.kbd** - Full-featured Colemak-DH (recommended)
-- **colemak-DH-Twilight.kbd** - Experimental Colemak-DH variant
-- **QWERTY-EXTEND.kbd** - QWERTY layout (QWERTY-only, no Colemak layer)
+
+| File                           | Description                            |
+| ------------------------------ | -------------------------------------- |
+| `colemak-DH-STABLE.kbd`        | Full-featured Colemak-DH (recommended) |
+| `QWERTY-EXTEND.kbd`            | QWERTY + Extend, without Colemak       |
+| `more_ergonomic_colemakDH.kbd` | Ergonomic Colemak-DH variant           |
+| `colemak-DH-Twilight.kbd`      | Experimental Colemak-DH variant        |
 
 ## Features
 
@@ -16,31 +20,33 @@ This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://drey
 - **EXTEND** - Navigation, F-keys, brightness + media controls
 - **NumPad** - Numbers and symbols
 - **Mouse** - Cursor, scroll, and Mouse buttons
-- **Unicode** - Macros and emojis (Japanese Kaomoji)
+- **Media** - Previous, Pause/Play, Next.  Volume & Brightness control
 
 **Advanced:**
 - Tap-Hold keys (tap = character, hold = layer)
 - Tap-Dance (multi-tap = different actions)
 - Layout toggle (Colemak ↔ QWERTY) with `ins` key
 
+
+
 ## Usage
 
 ### Linux
 ```sh
-sudo kanata --cfg colemak-DH-STABLE.kbd
+sudo linux-binaries/kanata_linux_x64 --cfg colemak-DH-STABLE.kbd
 ```
 
 ### Windows
 ```sh
-# Without interception driver (recommended)
+# Without interception driver
 windows-binaries\kanata_windows_tty_winIOv2_x64.exe --cfg colemak-DH-STABLE.kbd
 
 # With interception driver installed
 windows-binaries\kanata_windows_tty_wintercept_x64.exe --cfg colemak-DH-STABLE.kbd
 ```
 
->[!IMPORTANT]
-> The `wintercept` variant requires the `windows-interception` driver to be installed first. If you haven't installed it, use the `winIOv2_x64.exe` version instead. see why in the [official guide](https://github.com/jtroo/kanata/releases/tag/v1.10.0).
+>[!NOTE]
+> Use `wintercept` variants **only** if you have the interception driver installed, [official guide](https://github.com/jtroo/kanata/releases).
 
 
 ## Credits
