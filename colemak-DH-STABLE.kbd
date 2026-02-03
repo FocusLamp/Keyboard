@@ -52,7 +52,7 @@
   jS    (tap-hold $hrm-tap $hrm-hold j lsft)
   kC    (tap-hold $hrm-tap $hrm-hold k lctl)
 
-  alt-num (tap-hold $tap-timeout 500 lalt @num)
+  altNum (tap-hold $tap-timeout 500 lalt @num)
   
   ;; Mouse wheel controls
   mwu (mwheel-up $wheel-interval $wheel-distance)
@@ -88,6 +88,9 @@
     ((base-layer QWERTY)) (layer-switch Colemak-DH) break
     ((base-layer Colemak-DH)) (layer-switch QWERTY) break
   )
+
+
+  tdEsc (tap-dance 250 (esc @cw))  ;; 1x=esc,  2x=caps-word
 
 )
 
@@ -154,9 +157,9 @@
 (deflayer media
   _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
-  _    _    _    _    _    _    _    volu    brup    _    _    _    _    _                             _    _    _     _    _    _    _
-  _    _    _    _    _    _    mute  vold    brdn    _    _    _    _                                               _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _                                                  _          _    _    _    _
+  _    _    _    _    _    _    _    volu    brup   _    _    _    _    _                             _    _    _     _    _    _    _
+  _    _    _    _    _    _    mute  vold    brdn  _    _    _    _                                               _    _    _
+  _    _    _    _    _    _    _    prev   pp    next      _    _                                                  _          _    _    _    _
   _    _    _              _              _    _    _    _                                             _    _    _     _    _
 )
 

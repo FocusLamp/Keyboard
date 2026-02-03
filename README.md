@@ -6,7 +6,6 @@ This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://drey
 
 ## Configurations
 
-
 | File                           | Description                            |
 | ------------------------------ | -------------------------------------- |
 | `colemak-DH-STABLE.kbd`        | Full-featured Colemak-DH (recommended) |
@@ -17,37 +16,40 @@ This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://drey
 ## Features
 
 **Layers:**
+
 - **EXTEND** - Navigation, F-keys, brightness + media controls
 - **NumPad** - Numbers and symbols
 - **Mouse** - Cursor, scroll, and Mouse buttons
-- **Media** - Previous, Pause/Play, Next.  Volume & Brightness control
+- **Media** - Previous, Pause/Play, Next. Volume & Brightness control
 
 **Advanced:**
+
 - Tap-Hold keys (tap = character, hold = layer)
 - Tap-Dance (multi-tap = different actions)
 - Layout toggle (Colemak ↔ QWERTY) with `ins` key
 
-
-
 ## Usage
 
 ### Linux
+
 ```sh
 sudo linux-binaries/kanata_linux_x64 --cfg colemak-DH-STABLE.kbd
 ```
 
 ### Windows
+
 ```sh
 # Without interception driver
 windows-binaries\kanata_windows_tty_winIOv2_x64.exe --cfg colemak-DH-STABLE.kbd
+```
 
+```sh
 # With interception driver installed
 windows-binaries\kanata_windows_tty_wintercept_x64.exe --cfg colemak-DH-STABLE.kbd
 ```
 
->[!NOTE]
+> [!NOTE]
 > Use `wintercept` variants **only** if you have the interception driver installed, [official guide](https://github.com/jtroo/kanata/releases).
-
 
 ## Credits
 
