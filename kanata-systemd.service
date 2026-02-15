@@ -1,0 +1,12 @@
+[Unit]
+Description=Kanata Keyboard Service
+Documentation=https://github.com/jtroo/kanata
+
+[Service]
+ExecStart=kanata --cfg /etc/kanata/colemak-dh-twilight.kbd -q
+; Restart=on-failure
+; RestartSec=7
+
+[Install]
+WantedBy=multi-user.target 
+# WantedBy=default.target # For user-specific services

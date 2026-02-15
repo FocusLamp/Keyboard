@@ -6,12 +6,12 @@ This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://drey
 
 ## Configurations
 
-| File                           | Description                            |
-| ------------------------------ | -------------------------------------- |
-| `colemak-DH-STABLE.kbd`        | Full-featured Colemak-DH (recommended) |
-| `QWERTY-EXTEND.kbd`            | QWERTY + Extend, without Colemak       |
-| `more_ergonomic_colemakDH.kbd` | Ergonomic Colemak-DH variant           |
-| `colemak-DH-Twilight.kbd`      | Experimental Colemak-DH variant        |
+| File                      | Description                            |
+| ------------------------- | -------------------------------------- |
+| `colemak-dh.kbd`          | Full-featured Colemak-DH (recommended) |
+| `qwerty-extend.kbd`       | QWERTY + Extend, without Colemak       |
+| `colemak-dh-ergo.kbd`     | Ergonomic Colemak-DH variant           |
+| `colemak-dh-twilight.kbd` | Experimental Colemak-DH variant        |
 
 ## Features
 
@@ -33,19 +33,19 @@ This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://drey
 ### Linux
 
 ```sh
-sudo linux-binaries/kanata_linux_x64 --cfg colemak-DH-STABLE.kbd
+sudo linux-binaries/kanata_linux_x64 --cfg colemak-dh.kbd
 ```
 
 ### Windows
 
 ```sh
 # Without interception driver
-windows-binaries\kanata_windows_tty_winIOv2_x64.exe --cfg colemak-DH-STABLE.kbd
+windows-binaries\kanata_windows_tty_winIOv2_x64.exe --cfg colemak-dh.kbd
 ```
 
 ```sh
 # With interception driver installed
-windows-binaries\kanata_windows_tty_wintercept_x64.exe --cfg colemak-DH-STABLE.kbd
+windows-binaries\kanata_windows_tty_wintercept_x64.exe --cfg colemak-dh.kbd
 ```
 
 > [!NOTE]
