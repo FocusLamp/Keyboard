@@ -17,7 +17,7 @@ This is **heavily inspired** by [**DreymaR**'s BigBag Extend layer](https://drey
 
 **Layers:**
 
-- **EXTEND** - Navigation, F-keys, brightness + media controls
+- **EXTEND** - Navigation, Function keys, brightness + media controls
 - **NumPad** - Numbers and symbols
 - **Mouse** - Cursor, scroll, and Mouse buttons
 - **Media** - Previous, Pause/Play, Next. Volume & Brightness control
