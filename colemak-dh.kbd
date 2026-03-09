@@ -130,7 +130,7 @@
 ;; EXTEND Layer - Navigation & Function Keys
 (deflayer EXTEND
   caps ▶⏸    ◀◀      ▶▶    🔇      🔉      🔊      🔅     🔆    _      hmpg  mail  _                   _    _    _
-  _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    _                 _    _    _     _    _    _    _
+  _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    break             _    _    _     _    _    _    _
   _    esc   @mse  mbck  mfwd   @mwu   pgup   home   up    end    del   esc   ins    _                 _    _    _     _    _    _    _
   _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                                     _    _    _
   _    C-z   C-x   C-c   mlft   C-v    mrgt   mmid   bck   fwd    @med      _                               _          _    _    _    _
