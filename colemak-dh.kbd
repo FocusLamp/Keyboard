@@ -4,7 +4,7 @@
   process-unmapped-keys yes  ;; Pass-through undefined keys
   concurrent-tap-hold yes    ;; Allows multiple tap-holds simultaneously
   movemouse-smooth-diagonals yes
-  log-layer-changes yes      ;; Layer change logging for debugging
+  ;; log-layer-changes yes      ;; Layer change logging for debugging
 )
 
 
@@ -47,10 +47,11 @@
   r-mse (tap-hold $tap-timeout 350 r @mse)
  
   zS    (tap-hold $hrm-tap $hrm-hold z lsft)
-  xC    (tap-hold $hrm-tap $hrm-hold x lctl)
-  qA    (tap-hold $hrm-tap $hrm-hold q lalt)
+  pS    (tap-hold $hrm-tap $hrm-hold p lsft)
   jS    (tap-hold $hrm-tap $hrm-hold j lsft)
+  dC    (tap-hold $hrm-tap $hrm-hold d lctl)
   kC    (tap-hold $hrm-tap $hrm-hold k lctl)
+  qA    (tap-hold $hrm-tap $hrm-hold q lalt)
   [M    (tap-hold $hrm-tap $hrm-hold [ lmet)
 
   altNum (tap-hold $tap-timeout 500 lalt @num)
@@ -108,12 +109,12 @@
 
 ;; Colemak-DH Base Layer
 (deflayer Colemak-DH
-  @tdEsc _    _    _    _    _    _    _    _    _    _    _    _                                       _    _    _
-  grv    _    _    _    _    _    _    _    _    _    _    _    _    _                                 @swap _    _    _    _    _    _
-  tab    @qA  w    f    p    b    @jS  l    u    y    ;    @[M    ]    \                                  _    _    _    _    _    _    _
-  @ext   a    @r-mse  s    t    g    m    n    e    i    o    '    ret                                                 _    _    _
-  lsft   @zS  @xC  c    d    v    @kC  h    ,    .    /    rsft                                              _         _    _    _    _
-  lctl   lmet    lalt          spc          @altNum    rmet    menu    rctl                              _    _    _    _    _
+  @tdEsc _    _    _    _    _    _    _    _    _    _    _    _                _    _    _
+  grv    _    _    _    _    _    _    _    _    _    _    _    _    _          @swap _    _    _    _    _    _
+  tab    @qA  w    f    @pS  b    @jS  l    u    y    ;    @[M    ]    \       _    _    _    _    _    _    _
+  @ext   a @r-mse  s    t    g    m    n    e    i    o    '    ret                             _    _    _
+  lsft   @zS  x    c    @dC  v    @kC  h    ,    .    /    rsft                       _         _    _    _    _
+  lctl   lmet    lalt          spc          @altNum    rmet    menu    rctl      _    _    _    _    _
 )
 
 ;; QWERTY Layer - Alternative Layout
