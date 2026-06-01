@@ -17,11 +17,11 @@
 
 (defvar
   ;; Mouse settings
-  mouse-interval 1      ;; Mouse movement polling interval
+  mouse-interval 2      ;; Mouse movement polling interval
   mouse-accel-time 1000 ;; Time to reach max speed (ms)
   mouse-min-speed 1     ;; Starting mouse speed
-  mouse-max-speed 5     ;; Maximum mouse speed
-  wheel-interval 50     ;; Scroll wheel interval
+  mouse-max-speed 3     ;; Maximum mouse speed
+  wheel-interval 40     ;; Scroll wheel interval
   wheel-distance 150    ;; Scroll distance per tick
 
   ;; Timing settings
@@ -42,9 +42,8 @@
   mse   (layer-toggle mouse)   ;; Mouse controls
   med   (layer-toggle media)   ;; Media controls
 
-  r-mse (tap-hold $tap-timeout 350 r @mse)
+  r_mse (tap-hold $tap-timeout 350 r @mse)
 
-  zS    (tap-hold $hrm-tap $hrm-hold z lsft)
   pS    (tap-hold $hrm-tap $hrm-hold p lsft)
   jS    (tap-hold $hrm-tap $hrm-hold j lsft)
   dC    (tap-hold $hrm-tap $hrm-hold d lctl)
@@ -61,20 +60,20 @@
   mwr (mwheel-right $wheel-interval $wheel-distance)
   
   ;; Precise mouse movement (1px at a time)
-  ms↑ (movemouse-up $mouse-interval 1)
-  ms← (movemouse-left $mouse-interval 1)
-  ms↓ (movemouse-down $mouse-interval 1)
-  ms→ (movemouse-right $mouse-interval 1)
+  ms_up (movemouse-up $mouse-interval 1)
+  ms_lf (movemouse-left $mouse-interval 1)
+  ms_dn (movemouse-down $mouse-interval 1)
+  ms_rt (movemouse-right $mouse-interval 1)
   
   ;; Accelerated mouse movement
-  ma↑ (movemouse-accel-up $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
-  ma← (movemouse-accel-left $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
-  ma↓ (movemouse-accel-down $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
-  ma→ (movemouse-accel-right $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma_up (movemouse-accel-up $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma_lf (movemouse-accel-left $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma_dn (movemouse-accel-down $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
+  ma_rt (movemouse-accel-right $mouse-interval $mouse-accel-time $mouse-min-speed $mouse-max-speed)
 
   ;; Mouse utilities
   sm  (setmouse 32228 32228)    ;; Center mouse
-  fms (movemouse-speed 240)     ;; Fast mouse speed (240%)
+  fms (movemouse-speed 250)     ;; Fast mouse speed (250%)
 
   cw  (caps-word $capsword-timeout)
 
@@ -104,43 +103,43 @@
 
 ;; Colemak-DH Base Layer
 (deflayer Colemak-DH
-  @tdEsc _    _    _    _    _    _    _    _    _    _    _    _                _    _    _
-  grv    _    _    _    _    _    _    _    _    _    _    _    _    _          @swap _    _    _    _    _    _
-  tab    @qA  w    f    @pS  b    @jS  l    u    y    ;    @[M    ]    \       _    _    _    _    _    _    _
-  @ext   a @r-mse  s    t    g    m    n    e    i    o    '    ret                             _    _    _
-  lsft   @zS  x    c    @dC  v    @kC  h    ,    .    /    rsft                       _         _    _    _    _
-  lctl   lmet    lalt          spc          @altNum    rmet    menu    rctl      _    _    _    _    _
+@tdEsc _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  grv  _    _    _    _    _    _    _    _    _    _    _    _    _                                  @swap _    _     _    _    _    _
+  tab  @qA  w    f    @pS  b    @jS  l    u    y    ;    @[M  ]    \                                   _    _    _     _    _    _    _
+  @ext a  @r_mse s    t    g    m    n    e    i    o    '    ret                                                      _    _    _
+  lsft z    x    c    @dC  v    @kC  h    ,    .    /    rsft                                               _          _    _    _    _
+  lctl lmet lalt           spc            @altNum rmet menu rctl                                       _    _    _     _    _
 )
 
 ;; QWERTY Layer - Alternative Layout
 (deflayer QWERTY
-  esc  F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12             prnt slck pause
-  grv  1     2     3     4     5     6     7     8     9     0     -     =     bspc     @swap home pgup  nlck kp/  kp*  kp-
-  tab  q     w     e     r     t     y     u     i     o     p     [     ]     \         del  end  pgdn  kp7  kp8  kp9  kp+
-  @ext a     s     d     f     g     h     j     k     l     ;     '     ret                             kp4  kp5  kp6
-  lsft z     x     c     v     b     n     m     ,     .     /     rsft                       up         kp1  kp2  kp3  kprt
-  lctl lmet lalt           spc            @altNum    rmet   menu  rctl                   left down rght  kp0  kp.
+  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                                      prnt slck pause
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc                               @swap home pgup  nlck kp/  kp*  kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \                                   del  end  pgdn  kp7  kp8  kp9  kp+
+  @ext a    s    d    f    g    h    j    k    l    ;    '    ret                                                      kp4  kp5  kp6
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft                                               up         kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc            @altNum rmet menu rctl                                       left down rght  kp0  kp.
 )
 
 
 ;; EXTEND Layer - Navigation & Function Keys
 (deflayer EXTEND
-  caps ▶⏸    ◀◀      ▶▶    🔇      🔉      🔊      🔅    🔆    _      hmpg  mail  _         _    _    _
-  _    F1    F2    F3    F4     F5     F6     F7     F8    F9     F10   F11   F12    break  _    _    _     _    _    _    _
-  _    esc   @mse  mbck  mfwd   @mwu   pgup   home   up    end    del   esc   ins    _      _    _    _     _    _    _    _
-  _    lalt  lmet  lsft  lctl   @mwd   pgdn   left   down  rght   bspc  menu  prnt                       _    _    _
-  _    C-z   C-x   C-c   mlft   C-v    mrgt   mmid   bck   fwd    @med      _                    _          _    _    _    _
-  _    _    _              ret            _    _    _    _                                  _    _    _     _    _
+  caps pp   prev next mute vold volu brdn brup _    hmpg mail _                                        _    _    _
+  _    F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12  break                               _    _    _     _    _    _    _
+  _    esc  @mse mbck mfwd @mwu pgup home up   end  del  esc  ins  _                                   _    _    _     _    _    _    _
+  _    lalt lmet lsft lctl @mwd pgdn left down rght bspc menu prnt                                                     _    _    _
+  _    C-z  C-x  C-c  mlft C-v  mrgt mmid bck  fwd  @med _                                                  _          _    _    _    _
+  _    _    _              ret            _    _    _    _                                             _    _    _     _    _
 )
 
 ;; NumPad Layer - Numbers & Navigation
 (deflayer NumPad 
-  _    _     _     _      _      _      _       _    _    _    _     _    _              _    _    _
-  _    _     _     _      _      _      _       _    _    _    _     _    _     _        _    _    _     _    _    _    _
-  _    S-1   S-2   S-3    S-4    S-5    S-6     S-7  S-8  S-9  S-0   [    ]     \        _    _    _     _    _    _    _
-  _    1     2     3      4      5      6       7    8    9    0     -    =                              _    _    _
-  _    `   @hmmm  @think  bspc   spc    bspc    +    -    /     ,    .                        _          _    _    _    _
-  _    _     _             spc                  _    _    _    _                         _    _    _     _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
+  _    S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0  [    ]    \                                   _    _    _     _    _    _    _
+  _    1    2    3    4    5    6    7    8    9    0    -    =                                                        _    _    _
+  _    `    @think ;    bspc spc  bspc +    -    /    ,    .                                                _          _    _    _    _
+  _    _    _              spc            _    _    _    _                                             _    _    _     _    _
 )
 
 ;; NumPad Layer - Numbers & Symbols
@@ -156,21 +155,21 @@
 
 
 (deflayer mouse
-  _    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX              XX    XX    XX
-  XX   XX    XX    XX    XX    XX    @ma↑  XX    XX    pgup  @mwu  pgdn  lctl    XX      XX    XX    XX     XX   XX   XX   XX
-  _    XX    XX    XX    XX    @ma←  @ma↓  @ma→  @ms↑  @mwl  @mwd  @mwr  XX    XX        XX    XX    XX     XX   XX   XX   XX
-  _    XX    XX    @fms  XX    @fms  @sm   @ms←  @ms↓  @ms→  XX    XX    XX                                 XX   XX   XX
-  _    XX    XX    XX    mlft  mrgt  mmid   XX    mbck   mfwd   XX    _                        XX           XX   XX   XX   XX
-  _    _    _              spc             _    _    _    _                              XX    XX    XX     XX   XX
+  _      XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
+  XX     XX     XX     XX     XX     XX     @ma_up XX     XX     pgup   @mwu   pgdn   lctl   XX     XX     XX     XX     XX     XX     XX     XX
+  _      XX     XX     @fms   XX     @ma_lf @ma_dn @ma_rt @ms_up @mwl   @mwd   @mwr   XX     XX     XX     XX     XX     XX     XX     XX     XX
+  _      XX     XX     @fms   @sm    @fms   @sm    @ms_lf @ms_dn @ms_rt XX     XX     XX     XX     XX     XX
+  _      XX     XX     XX     mlft   mrgt   mmid   XX     mbck   mfwd   XX     _      XX     XX     XX     XX     XX
+  _      _      _      spc    _      _      _      _      XX     XX     XX     XX     XX
 )
 
 (deflayer media
-  _    _    _    _    _    _    _    _    _    _    _    _    _                   _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _              _    _    _     _    _    _    _
-  _    _    _    _    _    _    _    volu    brup    _    _    _    _    _    _    _    _     _    _    _    _
-  _    _    _    _    _    _    mute  vold    brdn    _    _    _    _                            _    _    _
-  _    _    _    _    _    _    _    prev   pp    next      _    _                     _          _    _    _    _
-  _    _    _              _              _    _    _    _                        _    _    _     _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
+  _    _    _    _    _    _    _    volu brup _    _    _    _    _                                   _    _    _     _    _    _    _
+  _    _    _    _    _    _    mute vold brdn _    _    _    _                                                        _    _    _
+  _    _    _    _    _    _    _    prev pp   next _    _                                                  _          _    _    _    _
+  _    _    _              _              _    _    _    _                                             _    _    _     _    _
 )
 
 
