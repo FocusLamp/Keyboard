@@ -3,10 +3,11 @@ Description=Kanata Keyboard Service
 Documentation=https://github.com/jtroo/kanata
 
 [Service]
-ExecStart=kanata --cfg /etc/kanata/colemak-dh-twilight.kbd -q
-; Restart=on-failure
-; RestartSec=7
+Type=simple
+User=root
+ExecStart=/etc/kanata/kanata_linux_x64 --cfg /etc/kanata/colemak-dh-twilight.kbd --quiet
+#Restart=on-failure
+#RestartSec=10
 
 [Install]
-WantedBy=multi-user.target 
-# WantedBy=default.target # For user-specific services
+WantedBy=multi-user.target
