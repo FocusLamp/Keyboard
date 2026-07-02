@@ -21,17 +21,17 @@
   mouse-accel-time 1000 ;; Time to reach max speed (ms)
   mouse-min-speed 1     ;; Starting mouse speed
   mouse-max-speed 3     ;; Maximum mouse speed
-  wheel-interval 40     ;; Scroll wheel interval
+  wheel-interval 50     ;; Scroll wheel interval
   wheel-distance 150    ;; Scroll distance per tick
 
   ;; Timing settings
-  tap-timeout 200       ;; Max time for tap recognition (ms)
-  hold-timeout 200      ;; Min time for hold recognition (ms)
+  tap-timeout 300       ;; Max time for tap recognition (ms)
+  hold-timeout 300      ;; Min time for hold recognition (ms)
   capsword-timeout 2000 ;; Auto-disable caps word after (ms)
 
   ;; Home row mods timing
-  hrm-tap 200           ;; Home row mod tap timeout (ms)
-  hrm-hold 200          ;; Home row mod hold timeout (ms)
+  hrm-tap 250           ;; Home row mod tap timeout (ms)
+  hrm-hold 250          ;; Home row mod hold timeout (ms)
 )
 
 ;; Layer and Function Aliases
@@ -41,8 +41,10 @@
   num   (layer-toggle NumPad)  ;; NumPad
   mse   (layer-toggle mouse)   ;; Mouse controls
   med   (layer-toggle media)   ;; Media controls
+  tter (layer-toggle one_hand)
 
   r_mse (tap-hold $tap-timeout 350 r @mse)
+  tst_mse (tap-hold $tap-timeout 150 ] @tter)
 
   pS    (tap-hold $hrm-tap $hrm-hold p lsft)
   jS    (tap-hold $hrm-tap $hrm-hold j lsft)
@@ -103,45 +105,46 @@
 
 ;; Colemak-DH Base Layer
 (deflayer Colemak-DH
-@tdEsc _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
-  grv  _    _    _    _    _    _    _    _    _    _    _    _    _                                  @swap _    _     _    _    _    _
-  tab  @qA  w    f    @pS  b    @jS  l    u    y    ;    @[M  ]    \                                   _    _    _     _    _    _    _
-  @ext a  @r_mse s    t    g    m    n    e    i    o    '    ret                                                      _    _    _
-  lsft z    x    c    @dC  v    @kC  h    ,    .    /    rsft                                               _          _    _    _    _
-  lctl lmet lalt           spc            @altNum rmet menu rctl                                       _    _    _     _    _
+@tdEsc _    _    _    _    _    _    _    _    _    _    _    _                           _    _    _
+  grv  _    _    _    _    _    _    _    _    _    _    _    _    _                     @swap _    _     _    _    _    _
+  tab  @qA  w    f    @pS  b    @jS  l    u    y    ;    @[M  @tst_mse    \                      _    _    _     _    _    _    _
+  @ext a  @r_mse s    t    g    m    n    e    i    o    '    ret                                         _    _    _
+  lsft z    x    c    @dC  v    @kC  h    ,    .    /    rsft                                  _          _    _    _    _
+  lctl lmet lalt           spc            @altNum rmet menu rctl                          _    _    _     _    _
 )
 
 ;; QWERTY Layer - Alternative Layout
 (deflayer QWERTY
-  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                                      prnt slck pause
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc                               @swap home pgup  nlck kp/  kp*  kp-
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \                                   del  end  pgdn  kp7  kp8  kp9  kp+
-  @ext a    s    d    f    g    h    j    k    l    ;    '    ret                                                      kp4  kp5  kp6
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft                                               up         kp1  kp2  kp3  kprt
-  lctl lmet lalt           spc            @altNum rmet menu rctl                                       left down rght  kp0  kp.
+  esc  F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12                         prnt slck pause
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc                  @swap home pgup  nlck kp/  kp*  kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \                      del  end  pgdn  kp7  kp8  kp9  kp+
+  @ext a    s    d    f    g    h    j    k    l    ;    '    ret                                         kp4  kp5  kp6
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft                                  up         kp1  kp2  kp3  kprt
+  lctl lmet lalt           spc            @altNum rmet menu rctl                          left down rght  kp0  kp.
 )
 
 
 ;; EXTEND Layer - Navigation & Function Keys
 (deflayer EXTEND
-  caps pp   prev next mute vold volu brdn brup _    hmpg mail _                                        _    _    _
-  _    F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12  break                               _    _    _     _    _    _    _
-  _    esc  @mse mbck mfwd @mwu pgup home up   end  del  esc  ins  _                                   _    _    _     _    _    _    _
-  _    lalt lmet lsft lctl @mwd pgdn left down rght bspc menu prnt                                                     _    _    _
-  _    C-z  C-x  C-c  mlft C-v  mrgt mmid bck  fwd  @med _                                                  _          _    _    _    _
-  _    _    _              ret            _    _    _    _                                             _    _    _     _    _
+  caps pp   prev next mute vold volu brdn brup _    hmpg mail _                           _    _    _
+  _    F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12  break                  _    _    _     _    _    _    _
+  _    esc  @mse mbck mfwd @mwu pgup home up   end  del  esc  ins  _                      _    _    _     _    _    _    _
+  _    lalt lmet lsft lctl @mwd pgdn left down rght bspc menu prnt                                        _    _    _
+  _    C-z  C-x  C-c  mlft C-v  mrgt mmid bck  fwd  @med _                                     _          _    _    _    _
+  _    _    _              ret            _    _    _    _                                _    _    _     _    _
 )
 
 ;; NumPad Layer - Numbers & Navigation
 (deflayer NumPad 
-  _    _    _    _    _    _    _    _    _    _    _    _    _                                        _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _                                   _    _    _     _    _    _    _
-  _    S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0  [    ]    \                                   _    _    _     _    _    _    _
-  _    1    2    3    4    5    6    7    8    9    0    -    =                                                        _    _    _
-  _    `    @think ;    bspc spc  bspc +    -    /    ,    .                                                _          _    _    _    _
-  _    _    _              spc            _    _    _    _                                             _    _    _     _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _                           _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _                      _    _    _     _    _    _    _
+  _    S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0  [    ]    \                      _    _    _     _    _    _    _
+  _    1    2    3    4    5    6    7    8    9    0    -    =                                           _    _    _
+  _    `    @think ;    bspc spc  bspc +    -    /    ,    .                                   _          _    _    _    _
+  _    _    _              spc            _    _    _    _                                _    _    _     _    _
 )
 
+;; other form of numbad
 ;; NumPad Layer - Numbers & Symbols
 ;;(deflayer NumPad
 ;;  _    _     _     _      _      _      _       _    _    _    _     _    _              _    _    _
@@ -160,6 +163,15 @@
   _      XX     XX     @fms   XX     @ma_lf @ma_dn @ma_rt @ms_up @mwl   @mwd   @mwr   XX     XX     XX     XX     XX     XX     XX     XX     XX
   _      XX     XX     @fms   @sm    @fms   @sm    @ms_lf @ms_dn @ms_rt XX     XX     XX     XX     XX     XX
   _      XX     XX     XX     mlft   mrgt   mmid   XX     mbck   mfwd   XX     _      XX     XX     XX     XX     XX
+  _      _      _      spc    _      _      _      _      XX     XX     XX     XX     XX
+)
+
+(deflayer one_hand
+  _      XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
+  XX     XX     XX     XX     XX     XX     @ma_up XX     XX     @mwu   @ms_up @mwd   lctl   XX     XX     XX     XX     XX     XX     XX     XX
+  _      XX     XX     @fms   XX     @ma_lf @ma_dn @ma_rt @ms_up @ms_lf   @ms_dn   @ms_rt   XX     XX     XX     XX     XX     XX     XX     XX     XX
+  _      XX     XX     @fms   @sm    @fms   @sm    @ms_lf @ms_dn @ms_rt XX     XX     XX     XX     XX     XX
+  _      XX     XX     XX     mlft   mrgt   mmid   @fms     mlft   mrgt   mmid     _      XX     XX     XX     XX     XX
   _      _      _      spc    _      _      _      _      XX     XX     XX     XX     XX
 )
 
