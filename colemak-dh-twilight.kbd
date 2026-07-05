@@ -41,10 +41,10 @@
   num   (layer-toggle NumPad)  ;; NumPad
   mse   (layer-toggle mouse)   ;; Mouse controls
   med   (layer-toggle media)   ;; Media controls
-  tter (layer-toggle one_hand)
+  one_h (layer-toggle one_hand)
 
   r_mse (tap-hold $tap-timeout 350 r @mse)
-  tst_mse (tap-hold $tap-timeout 150 ] @tter)
+  tst_mse (tap-hold $tap-timeout 350 ] @one_h)
 
   pS    (tap-hold $hrm-tap $hrm-hold p lsft)
   jS    (tap-hold $hrm-tap $hrm-hold j lsft)
@@ -53,7 +53,7 @@
   qA    (tap-hold $hrm-tap $hrm-hold q lalt)
   [M    (tap-hold $hrm-tap $hrm-hold [ lmet)
 
-  altNum (tap-hold $tap-timeout 500 lalt @num)
+  altNum (tap-hold $tap-timeout 400 lalt @num)
 
   ;; Mouse wheel controls
   mwu (mwheel-up $wheel-interval $wheel-distance)
