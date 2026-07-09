@@ -17,12 +17,12 @@
 
 (defvar
   ;; Mouse settings
-  mouse-interval 2      ;; Mouse movement polling interval
+  mouse-interval 3      ;; Mouse movement polling interval
   mouse-accel-time 1000 ;; Time to reach max speed (ms)
   mouse-min-speed 1     ;; Starting mouse speed
   mouse-max-speed 3     ;; Maximum mouse speed
-  wheel-interval 50     ;; Scroll wheel interval
-  wheel-distance 150    ;; Scroll distance per tick
+  wheel-interval 10     ;; Scroll wheel interval
+  wheel-distance 30    ;; Scroll distance per tick
 
   ;; Timing settings
   tap-timeout 300       ;; Max time for tap recognition (ms)
@@ -160,8 +160,8 @@
 (deflayer mouse
   _      XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
   XX     XX     XX     XX     XX     XX     @ma_up XX     XX     pgup   @mwu   pgdn   lctl   XX     XX     XX     XX     XX     XX     XX     XX
-  _      XX     XX     @fms   XX     @ma_lf @ma_dn @ma_rt @ms_up @mwl   @mwd   @mwr   XX     XX     XX     XX     XX     XX     XX     XX     XX
-  _      XX     XX     @fms   @sm    @fms   @sm    @ms_lf @ms_dn @ms_rt XX     XX     XX     XX     XX     XX
+  _      XX     XX     @fms   @mwu   @ma_lf @ma_dn @ma_rt @ms_up @mwl   @mwd   @mwr   XX     XX     XX     XX     XX     XX     XX     XX     XX
+  _      lalt   XX     @fms   @mwd   @fms   @sm    @ms_lf @ms_dn @ms_rt XX     XX     XX     XX     XX     XX
   _      XX     XX     XX     mlft   mrgt   mmid   XX     mbck   mfwd   XX     _      XX     XX     XX     XX     XX
   _      _      _      spc    _      _      _      _      XX     XX     XX     XX     XX
 )
