@@ -21,8 +21,8 @@
   mouse-accel-time 1000 ;; Time to reach max speed (ms)
   mouse-min-speed 1     ;; Starting mouse speed
   mouse-max-speed 3     ;; Maximum mouse speed
-  wheel-interval 10     ;; Scroll wheel interval
-  wheel-distance 30    ;; Scroll distance per tick
+  wheel-interval 20     ;; Scroll wheel interval
+  wheel-distance 60    ;; Scroll distance per tick
 
   ;; Timing settings
   tap-timeout 300       ;; Max time for tap recognition (ms)
