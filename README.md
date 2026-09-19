@@ -40,12 +40,10 @@ sudo linux-binaries/kanata_linux_x64 --cfg colemak-dh.kbd
 
 ```sh
 # Without interception driver
-windows-binaries\kanata_windows_tty_winIOv2_x64.exe --cfg colemak-dh.kbd
-```
+.\windows-binaries-x64\kanata_windows_tty_winIOv2_x64.exe -c .\colemak-dh-twilight.kbd
 
-```sh
 # With interception driver installed
-windows-binaries\kanata_windows_tty_wintercept_x64.exe --cfg colemak-dh.kbd
+.\windows-binaries-x64\kanata_windows_tty_wintercept_x64.exe -c .\colemak-dh-twilight.kbd
 ```
 
 > [!NOTE]
